@@ -6,11 +6,11 @@ const { schemas } = require('../../models/user');
 router.post('/register', validateBody(schemas.registerSchema), ctrl.register);
 router.post('/login', validateBody(schemas.loginSchema), ctrl.login);
 router.get('/current', authenticate, ctrl.getCurrent);
-router.post('/logaut', authenticate, ctrl.logaut);
-router.patch(
-  '/',
-  authenticate,
-  validateBody(schemas.patchSubscriptionSchema),
-  ctrl.patchSubscription
-);
+router.post('/logout', authenticate, ctrl.logout);
+// router.patch(
+//   '/',
+//   authenticate,
+//   validateBody(schemas.patchSubscriptionSchema),
+//   ctrl.patchSubscription
+// );
 module.exports = router;
