@@ -1,26 +1,30 @@
-const { Schema, model } = require("mongoose");
+const { model, Schema } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 
 // схема
 const productSchema = new Schema(
   {
-    name: {
+    weight: {
+          type: Number,
+        min: 35,
+      required: [true, "Set weight for product"],
+    },
+    calories: {
+        type: Number,
+        min: 1,
+        required: [true, "Set calories for product"],
+    },
+    category: {
+        type: String,
+        required: [true, "Set category for product"],
+    },
+    title: {
       type: String,
-      required: [true, "Set name for contact"],
+      required: [true, "Set title for product"],
     },
-    email: {
-      type: String,
-    },
-    phone: {
-      type: String,
-    },
-    favorite: {
-      type: Boolean,
-      default: false,
-    },
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: "user",
+    groupBloodNotAllowed: {
+      type: Object,
+      required: [true, "Set blood groups for product"],
     },
   },
   { versionKey: false, timestamps: true }
