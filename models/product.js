@@ -5,18 +5,18 @@ const { handleMongooseError } = require("../helpers");
 const productSchema = new Schema(
   {
     weight: {
-          type: Number,
-        min: 35,
+      type: Number,
+      min: 35,
       required: [true, "Set weight for product"],
     },
     calories: {
-        type: Number,
-        min: 1,
-        required: [true, "Set calories for product"],
+      type: Number,
+      min: 1,
+      required: [true, "Set calories for product"],
     },
     category: {
-        type: String,
-        required: [true, "Set category for product"],
+      type: String,
+      required: [true, "Set category for product"],
     },
     title: {
       type: String,
@@ -35,5 +35,5 @@ productSchema.post("save", handleMongooseError);
 // модель (клас, який буде працювати з колекцією product)
 const Product = model("product", productSchema);
 
-// імпортуємо в контролери 
+// імпортуємо в контролери
 module.exports = Product;
