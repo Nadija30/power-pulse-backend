@@ -5,7 +5,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const authRouter = require('./routes/api/auth');
-// const exercisesRouter = require('./routes/api/exercises');
+const exercisesRouter = require('./routes/api/exercises');
 // const diaryRouter = require('./routes/api/diary');
 // const productsRouter = require('./routes/api/products');
 
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.use('/users', authRouter);
-// app.use('/exercises', exercisesRouter);
+app.use('/exercises', exercisesRouter);
 // app.use('/diary', diaryRouter);
 // app.use('/products', productsRouter);
 
