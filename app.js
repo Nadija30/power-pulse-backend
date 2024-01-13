@@ -18,8 +18,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-app.use('/users', authRouter);
+app.use('/api/auth', authRouter);
 app.use('/exercises', exercisesRouter);
+
 // app.use('/diary', diaryRouter);
 // app.use('/products', productsRouter);
 
