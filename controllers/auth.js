@@ -3,7 +3,12 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models/user');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
-const { HttpError, ctrlWrapper, generateVerifyMessage } = require('../helpers');
+const {
+  HttpError,
+  ctrlWrapper,
+  generateVerifyMessage,
+  calculateBMR,
+} = require('../helpers');
 const { SECRET_KEY, META_PASSWORD } = process.env;
 
 const nodemailerConfig = {
@@ -111,6 +116,7 @@ const logout = async (req, res) => {
   }
   res.status(204).json({ message: 'logout was successful' });
 };
+
 const updateAvatar = async (req, res) => {
   try {
     const { _id } = req.user;
@@ -122,6 +128,49 @@ const updateAvatar = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+const addUserData = async (req, res) => {
+  try {
+    const { email } = req.user;
+    const updatedData = await User.findOneAndUpdate({ email }, req.body, {
+      new: true,
+    });
+
+    const { desiredWeight, height, birthday, sex, levelActivity } = updatedData;
+
+    const bmr = calculateBMR(
+      desiredWeight,
+      height,
+      birthday,
+      sex,
+      levelActivity
+    );
+
+    updatedData.bmr = bmr;
+
+    await updatedData.save();
+
+    if (updatedData) {
+      res.status(201).json(updatedData);
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+const getUserParams = async (req, res, next) => {
+  try {
+    const { email } = req.user;
+    const result = await User.findOne({ email });
+    if (!result) {
+      HttpError(404, 'Not found');
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 module.exports = {
   register: ctrlWrapper(register),
@@ -131,4 +180,6 @@ module.exports = {
   logout: ctrlWrapper(logout),
   resendVerifyEmail: ctrlWrapper(resendVerifyEmail),
   updateAvatar: ctrlWrapper(updateAvatar),
+  addUserData: ctrlWrapper(addUserData),
+  getUserParams: ctrlWrapper(getUserParams),
 };
