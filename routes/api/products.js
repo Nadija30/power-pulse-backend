@@ -3,11 +3,11 @@ const { getProductCategories, getProducts } = require("../../controllers/product
 const router = express.Router();
 
 // не забути мідлвару аус!!!
-
+const { authenticate } = require('../../middlewares');
 // get product categories
-router.get("/categories", getProductCategories);
+router.get("/categories",authenticate, getProductCategories);
 
 // get all products
-router.get("/", getProducts);
+router.get("/",authenticate, getProducts);
 
 module.exports = router;
