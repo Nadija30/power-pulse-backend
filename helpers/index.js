@@ -1,7 +1,7 @@
 const HttpError = require('./HttpError');
 const ctrlWrapper = require('./ctrlWrapper');
 const handleMongooseError = require('./handleMongooseError.js');
-const generateVerifyMessage = require('./generateVerifyMessage');
+// const generateVerifyMessage = require('./generateVerifyMessage');
 const sendEmail = require('./sendEmail');
 
 module.exports = {
@@ -9,5 +9,5 @@ module.exports = {
   HttpError,
   ctrlWrapper,
   handleMongooseError,
-  generateVerifyMessage,
+  // generateVerifyMessage,
 };

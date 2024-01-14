@@ -1,3 +1,4 @@
+const { BASE_URL } = process.env;
 const generateVerifyMessage = (verificationToken) =>
   `<html>
       <head>
@@ -30,7 +31,7 @@ const generateVerifyMessage = (verificationToken) =>
         <div class='container'>
           <h2>Hello from Backend,  сlick the link to verify your email address 👇️️️️️️</h2>
           <br />
-          <a target="_blank" href="${process.env.BASE_URL}/api/auth/verify/${verificationToken}">Click for verify email</a>
+          <a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationToken}">Click for verify email</a>
         </div>
       </body>
     </html>`;

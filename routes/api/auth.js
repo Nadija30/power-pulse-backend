@@ -13,13 +13,13 @@ router.get('/current', authenticate, ctrl.getCurrent);
 
 router.post('/logout', authenticate, ctrl.logout);
 
-router.get('/verify/:verificationToken', ctrl.verifyEmail);
+// router.get('/verify/:verificationToken', ctrl.verifyEmail);
 
-router.post(
-  '/verify',
-  validateBody(schemas.emailSchema),
-  ctrl.resendVerifyEmail
-);
+// router.post(
+//   '/verify',
+//   validateBody(schemas.emailSchema),
+//   ctrl.resendVerifyEmail
+// );
 router.patch(
   '/',
   authenticate,
