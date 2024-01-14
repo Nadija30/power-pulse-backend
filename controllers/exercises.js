@@ -1,54 +1,46 @@
 const { ctrlWrapper, HttpError } = require('../helpers');
-const  Muscles  = require ('../models/muscles');
 const  Exercises  = require ('../models/exercises');
-const  Bodyparts  = require ('../models/bodyParts');
-const  Equipment  = require ('../models/equipment');
+const  Filter  = require ('../models/filter');
+const exercisesFilterList = require('../models/exercisesFilterList')
 
-const getAllExercises = async (req, res) => {
-    const result = await Exercises.find()
-    if (!result) {
-              throw HttpError(404, 'Not found');
-            }
+const getAllExercises = ctrlWrapper(async (req, res) => {
+  const {
+    bodyPart = null,
+    equipment = null,
+    target = null,
+    page = 1,
+    limit = 18,
+  } = req.query;
+  const skip = (page - 1) * limit;
+
+  const baseQuery = {};
+  bodyPart && (baseQuery.bodyPart = { $regex: bodyPart.trim(), $options: 'i' });
+  equipment &&
+    (baseQuery.equipment = { $regex: equipment.trim(), $options: 'i' });
+  target && (baseQuery.target = { $regex: target.trim(), $options: 'i' });
+
+  const data = await Exercises.find(baseQuery).skip(skip).limit(limit);
+
+  const total = await Exercises.countDocuments(baseQuery);
+
+  res.status(200).json({ data, page: +page, limit: +limit, total });
+});
+
+          const getExercisesCategories = ctrlWrapper(async (req, res) => {
+            const { filter = null } = req.query;
+            const config = {};
+            filter &&
+              exercisesFilterList[filter] &&
+              (config.filter = exercisesFilterList[filter]);
+            const result = await Filter.find(config);
+            if (!result) {
+                      throw HttpError(404, 'Not found');
+                    }
             res.json(result);
-          };
-
-   
-const getAllBodyParts = async (req, res) => {
-    const result = await Bodyparts.find({ filter: 'Body parts' });
-    if (!result) {
-        throw HttpError(404, 'Not found');
-      }
-      res.json(result);
-    };
-
-// const getAllBodyParts = async (req, res) => {
-//     const filters = await Bodyparts.find();
-//     if (!filters) {
-//         throw HttpError(404, 'Not found');
-//       }
-//     const bodyParts = [...new Set(filters.filter(filter => filter.filter === "Body parts"))]
-//     res.json(bodyParts); }
-
-
-const getAllEquipments = async (req, res) => {
-    const result = await Equipment.find({ filter: 'Equipment' });
-    if (!result) {
-        throw HttpError(404, 'Not found');
-      }
-      res.json(result);
-    };
-
-    const getAllMuscles = async (req, res) => {
-        const result = await Muscles.find({ filter: "Muscles" });
-        if (!result) {
-            throw HttpError(404, 'Not found');
-          }
-          res.json(result);
-        };
+          });
+          
 
 module.exports = {
     getAllExercises: ctrlWrapper(getAllExercises),
-    getAllBodyParts: ctrlWrapper(getAllBodyParts),
-    getAllEquipments: ctrlWrapper(getAllEquipments),
-    getAllMuscles: ctrlWrapper(getAllMuscles)
+    getExercisesCategories: ctrlWrapper(getExercisesCategories),
 }

@@ -7,12 +7,9 @@ const { authenticate } = require('../../middlewares');
 const ctrl = require('../../controllers/exercises');
 
 
-router.get('/', ctrl.getAllExercises);
+router.get('/', authenticate, ctrl.getAllExercises);
 
-router.get('/bodyparts',  ctrl.getAllBodyParts);
+router.get('/filter', authenticate, ctrl.getExercisesCategories);
 
-router.get('/muscles',  ctrl.getAllMuscles);
-
-router.get('/equipments', ctrl.getAllEquipments);
 
 module.exports = router;
