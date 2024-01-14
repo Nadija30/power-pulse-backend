@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const equipmentSchema = new Schema(
+const filterSchema = new Schema(
     {
       filter: {
         type: String,
@@ -16,6 +16,6 @@ const equipmentSchema = new Schema(
     },
   );
   
-  const Equipment= model("equipment", equipmentSchema);
+  const Filter = model("filter", filterSchema);
   
-  module.exports = Equipment;
+  module.exports = Filter;
