@@ -9,10 +9,10 @@ const {
   sendEmail,
   HttpError,
   ctrlWrapper,
-  // generateVerifyMessage,
+  generateVerifyMessage,
   calculateBMR,
 } = require('../helpers');
-const { SECRET_KEY, BASE_URL } = process.env;
+const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -30,21 +30,21 @@ const register = async (req, res) => {
   const verifyEmail = {
     to: email,
     subject: 'Verify your email',
-    html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationCode}">Click verify email</a>`,
+    html: generateVerifyMessage(verificationCode),
   };
   await sendEmail(verifyEmail);
 
-  // const payload = { id: newUser._id };
-  // const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '23h' });
+  const payload = { id: newUser._id };
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '23h' });
 
-  // await User.findByIdAndUpdate(newUser._id);
+  await User.findByIdAndUpdate(newUser._id);
 
   res.status(201).json({
     user: {
       name: newUser.name,
       email: newUser.email,
     },
-    // token: token,
+    token: token,
   });
 };
 const verifyEmail = async (req, res) => {
@@ -81,7 +81,7 @@ const resendVerifyEmail = async (req, res) => {
   const verifyEmail = {
     to: email,
     subject: 'Verify email',
-    html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${user.verificationCode}">Click verify email</a>`,
+    html: generateVerifyMessage(user.verificationCode),
   };
 
   await sendEmail(verifyEmail);

@@ -7,6 +7,7 @@ const generateVerifyMessage = (verificationToken) =>
             font-size: 24px;
           }
           .container {
+            display: block;
             max-width: 70%;
             margin: 0 auto;
             padding: 20px;
@@ -18,12 +19,13 @@ const generateVerifyMessage = (verificationToken) =>
           h2 {
             font-size: 28px;
             margin-bottom: 10px;
+            color: white;
             text-align: center;
-          }
+
           a{
             display: block;
             font-size: 20px;
-            text-align: center;
+            text-align: сenter;
           }
         </style>
       </head>
