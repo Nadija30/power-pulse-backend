@@ -4,7 +4,8 @@ const Filter = require("../models/filter");
 const exercisesFilterList = require("../models/exercisesFilterList");
 
 // get all
-const getAllExercises = ctrlWrapper(async (req, res) => {
+// очікує квері параметр filter зі значенням "Body parts", "Equipment" або "Muscles"
+const getAllExercises = async (req, res) => {
   const {filter, page = 1, limit = 18 } = req.query;
   const skip = (page - 1) * limit;
 
@@ -12,11 +13,14 @@ const getAllExercises = ctrlWrapper(async (req, res) => {
 
   // const total = await Filter.countDocuments(Filter);
 
-  res.status(200).json({ data });
-});
+  res.json({ data });
+};
 
 
-const getExercisesCategories = ctrlWrapper(async (req, res) => {
+// get exercises by category
+// очікує квері параметр category зі значенням "Body parts", "Equipment" або "Muscles"
+// і квері параметр specific зі значенням підкатегорії з малої літери ("waist")
+const getExercisesCategories = async (req, res) => {
   const { filter = null } = req.query;
   const config = {};
   filter &&
@@ -27,7 +31,7 @@ const getExercisesCategories = ctrlWrapper(async (req, res) => {
     throw HttpError(404, "Not found");
   }
   res.json(result);
-});
+};
 
 module.exports = {
   getAllExercises: ctrlWrapper(getAllExercises),
