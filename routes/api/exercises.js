@@ -9,7 +9,7 @@ const ctrl = require('../../controllers/exercises');
 
 router.get('/', authenticate, ctrl.getAllExercises);
 
-router.get('/filter', authenticate, ctrl.getExercisesCategories);
+router.post('/filter', authenticate, ctrl.getExercisesCategories);
 
 
 module.exports = router;
