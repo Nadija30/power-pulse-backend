@@ -33,13 +33,24 @@ const getProducts = async (req, res) => {
   if (allowed === "yes") config[`groupBloodNotAllowed.${blood}`] = true;
   if (allowed === "no") config[`groupBloodNotAllowed.${blood}`] = false;
 
+  const total = await Product.countDocuments({});
   const data = await Product.find(config, "", { skip, limit });
 
   if (!data.length) {
     throw HttpError(404, "No products found");
   }
 
-  res.json(data);
+  const totalPages = Math.ceil(total / limit);
+  const currentPage = Math.ceil(skip / data.length) + 1;
+  const perPage = limit;
+  // console.log(data.length, limit, totalPages, total);
+
+  res.json({
+    totalPages,
+    currentPage,
+    perPage,
+    result: data,
+  });
 };
 
 module.exports = {
