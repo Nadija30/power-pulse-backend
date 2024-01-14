@@ -2,26 +2,15 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/user');
 require('dotenv').config();
-const nodemailer = require('nodemailer');
+
 const {
+  sendEmail,
   HttpError,
   ctrlWrapper,
   generateVerifyMessage,
   calculateBMR,
 } = require('../helpers');
-const { SECRET_KEY, META_PASSWORD } = process.env;
-
-const nodemailerConfig = {
-  host: 'smtp.meta.ua',
-  port: 465,
-  secure: true,
-  auth: {
-    user: 'nadezhda1993sukh@meta.ua',
-    pass: META_PASSWORD,
-  },
-};
-
-const transport = nodemailer.createTransport(nodemailerConfig);
+const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -69,15 +58,17 @@ const resendVerifyEmail = async (req, res) => {
   }
   const verifyEmail = {
     to: email,
-    from: 'nadezhda1993sukh@meta.ua',
-    subject: 'Test email',
-    Html: generateVerifyMessage(user.verificationToken),
+    subject: 'Verify your email',
+    html: generateVerifyMessage(user.verificationToken),
   };
-  await transport.sendMail(verifyEmail);
+
+  await sendEmail(verifyEmail);
+
   res.status(200).json({
     message: 'Verification email sent',
   });
 };
+
 const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -170,7 +161,6 @@ const getUserParams = async (req, res, next) => {
     next(error);
   }
 };
-
 
 module.exports = {
   register: ctrlWrapper(register),
