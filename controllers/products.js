@@ -24,8 +24,8 @@ const getProductCategories = async (req, res) => {
 const getProducts = async (req, res) => {
   const { page = 1, limit = 8, category, searchQuery, allowed } = req.query;
   const skip = (page - 1) * limit;
-  // const { blood } = req.user;
-  const blood = 2;
+  const { blood } = req.user;
+  // const blood = 2;
 
   const config = {};
   if (category) config.category = category;
