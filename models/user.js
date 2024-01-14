@@ -27,7 +27,7 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    verificationToken: {
+    verificationCode: {
       type: String,
       default: '',
     },
