@@ -16,10 +16,13 @@ router.post('/exercises', authenticate, ctrl.addExercise);
 // router.delete('/exercises/:exId', authenticate, ctrl.getExercisesCategories);
 
 // add product to diary
-// router.post('/products', authenticate, ctrl.getExercisesCategories);
+router.post('/products', authenticate, ctrl.addProduct);
 
-// detele product 
+// detele product
 // router.delete('/products/:prodId', authenticate, ctrl.getExercisesCategories);
+
+// test
+router.get('/products', authenticate, ctrl.getProductsDiary);
 
 
 module.exports = router;
