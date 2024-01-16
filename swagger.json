@@ -223,43 +223,44 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Verification email sent",
             "content": {}
           },
           "400": {
-            "description": "Bad Request",
+            "description": "Verification has already been passed",
             "content": {}
           },
           "404": {
-            "description": "Not Found",
+            "description": "User not found",
             "content": {}
           }
         }
       }
     },
-    "/api/auth/verify/{:verificationToken}": {
+    "/api/auth/verify/:verificationCode": {
       "get": {
         "tags": ["Auth"],
         "summary": "Verify email with a verification token",
         "parameters": [
           {
-            "in": "path",
-            "name": ":verificationToken",
+            "in": "params",
+            "name": "Path Variables",
             "required": true,
             "type": "string",
-            "description": "Verification token"
+            "description": "verificationCode",
+            "value": "aLKrq59NbdVXHRI7agL6U"
           }
         ],
         "requestBody": {},
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Email verify succes",
             "content": {
               "application/json": {}
             }
           },
-          "404": {
-            "description": "Not Found",
+          "401": {
+            "description": "Email not found",
             "content": {
               "application/json": {}
             }
