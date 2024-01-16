@@ -139,21 +139,24 @@
       "post": {
         "tags": ["Auth"],
         "summary": "User logout",
-        "paramrters": [],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
-          "204": {
-            "description": "No Content"
+          "201": {
+            "description": "User successfully logged out"
           },
           "404": {
             "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "content": {}
           },
           "401": {
             "description": "Not authorized",
@@ -166,7 +169,16 @@
       "patch": {
         "tags": ["Auth"],
         "summary": "Update user avatar",
-        "paramrters": [],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Update avatar object",
@@ -212,21 +224,15 @@
         "responses": {
           "200": {
             "description": "OK",
-            "content": {
-              "application/json": {}
-            }
+            "content": {}
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "application/json": {}
-            }
+            "content": {}
           },
           "404": {
             "description": "Not Found",
-            "content": {
-              "application/json": {}
-            }
+            "content": {}
           }
         }
       }
@@ -272,36 +278,42 @@
           "name": {
             "type": "string",
             "description": "User's name",
-            "minLength": "3"
+            "minLength": "3",
+            "example": "test1"
           },
           "email": {
             "type": "string",
             "description": "User's email",
             "format": "email",
+            "example": "test1@gmail.com",
             "pattern": "/^w+@[a-zA-Z_]+?.[a-zA-Z]{2,3}$/"
           },
           "password": {
             "type": "string",
             "description": "User's password",
-            "example": "qwerty123",
+            "example": "pass123",
             "minlength": "6"
           }
         }
       },
 
       "RegistrationResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "User's name"
-            },
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "test1"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email",
+                "example": "test123@gmail.com"
+              }
             }
           }
         }
@@ -314,148 +326,160 @@
             "type": "string",
             "description": "User's email",
             "format": "email",
-            "pattern": "/^w+@[a-zA-Z_]+?.[a-zA-Z]{2,3}$/"
+            "pattern": "/^w+@[a-zA-Z_]+?.[a-zA-Z]{2,3}$/",
+            "example": "test1@gmail.com"
           },
           "password": {
             "type": "string",
             "description": "User's password",
-            "example": "qwerty123",
+            "example": "test123",
             "minlength": "6"
           }
         }
       },
       "LoginResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "token": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string",
-              "description": "User's name"
-            },
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "_id": {
-              "type": "string",
-              "description": "User's _id"
-            },
-            "verify": {
-              "type": "boolean",
-              "example": "true or false"
-            },
-            "verificationToken": {
-              "type": "string"
-            },
-            "height": {
-              "type": "number"
-            },
-            "currentWeight": {
-              "type": "number"
-            },
-            "desiredWeight": {
-              "type": "number"
-            },
-            "birthday": {
-              "type": "Date"
-            },
-            "blood": {
-              "type": "number"
-            },
-            "sex": {
-              "type": "string"
-            },
-            "levelActivity": {
-              "type": "number"
-            },
-            "bmr": {
-              "type": "number"
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTNiN2E1ZGRjY2RjMDhiNmJmOWE0YSIsImlhdCI6MTY5OTk4NTMxNywiZXhwIjoxNzAwMDY4MTE3fQ.-dVm-aI4ozwWLhFYMJhirnCVJQLo4itlu3DypPC-5-A"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "test1"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email",
+                "example": "test1@gmail.com"
+              },
+              "_id": {
+                "type": "string",
+                "description": "User's _id"
+              },
+              "password": {
+                "type": "string",
+                "description": "User's password"
+              },
+              "verify": {
+                "type": "boolean",
+                "example": "true or false"
+              },
+              "verificationToken": {
+                "type": "string"
+              },
+              "height": {
+                "type": "number"
+              },
+              "currentWeight": {
+                "type": "number"
+              },
+              "desiredWeight": {
+                "type": "number"
+              },
+              "birthday": {
+                "type": "Date"
+              },
+              "blood": {
+                "type": "number"
+              },
+              "sex": {
+                "type": "string"
+              },
+              "levelActivity": {
+                "type": "number"
+              },
+              "bmr": {
+                "type": "number"
+              }
             }
           }
         }
       },
       "CurrentResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "token": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string",
-              "description": "User's name"
-            },
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "_id": {
-              "type": "string",
-              "description": "User's _id"
-            },
-            "verify": {
-              "type": "boolean",
-              "example": "true or false"
-            },
-            "verificationToken": {
-              "type": "string"
-            },
-            "height": {
-              "type": "number"
-            },
-            "currentWeight": {
-              "type": "number"
-            },
-            "desiredWeight": {
-              "type": "number"
-            },
-            "birthday": {
-              "type": "Date"
-            },
-            "blood": {
-              "type": "number"
-            },
-            "sex": {
-              "type": "string"
-            },
-            "levelActivity": {
-              "type": "number"
-            },
-            "bmr": {
-              "type": "number"
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "test1"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email",
+                "example": "test1@gmail.com"
+              },
+              "_id": {
+                "type": "string",
+                "description": "User's _id"
+              },
+              "password": {
+                "type": "string",
+                "description": "User's password"
+              },
+              "verify": {
+                "type": "boolean",
+                "example": "true or false"
+              },
+              "verificationToken": {
+                "type": "string"
+              },
+              "height": {
+                "type": "number"
+              },
+              "currentWeight": {
+                "type": "number"
+              },
+              "desiredWeight": {
+                "type": "number"
+              },
+              "birthday": {
+                "type": "Date"
+              },
+              "blood": {
+                "type": "number"
+              },
+              "sex": {
+                "type": "string"
+              },
+              "levelActivity": {
+                "type": "number"
+              },
+              "token": {
+                "type": "string",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTNiN2E1ZGRjY2RjMDhiNmJmOWE0YSIsImlhdCI6MTY5OTk4NTMxNywiZXhwIjoxNzAwMDY4MTE3fQ.-dVm-aI4ozwWLhFYMJhirnCVJQLo4itlu3DypPC-5-A"
+              },
+              "bmr": {
+                "type": "number"
+              }
             }
           }
         }
       },
       "AvatarsRequest": {
-        "type": "object",
-        "required": ["Key", "Value"],
+        "required": ["Key"],
         "properties": {
           "Key": {
             "type": "file"
-          },
-          "Value": {
-            "type": "path"
           }
         }
       },
       "AvatarsResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "avatarURL": {
-              "type": "string",
-              "description": "User's avatars",
-              "format": "path"
-            }
+        "type": "object",
+        "properties": {
+          "avatarURL": {
+            "type": "string",
+            "description": "User's avatars",
+            "example": "https://res.cloudinary.com/dc0fzggki/image/upload/v1705436593/avatars/a-cupcake-with-a-strawberry-on-top-and-a-strawberry-on-the-top.jpg.jpg"
           }
         }
       },
