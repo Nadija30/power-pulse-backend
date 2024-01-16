@@ -256,7 +256,11 @@
           "200": {
             "description": "Email verify succes",
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerificationCodeResponse"
+                }
+              }
             }
           },
           "401": {
@@ -492,6 +496,20 @@
             "type": "string",
             "description": "User's email",
             "format": "email"
+          }
+        }
+      },
+      "VerificationCodeResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTNiN2E1ZGRjY2RjMDhiNmJmOWE0YSIsImlhdCI6MTY5OTk4NTMxNywiZXhwIjoxNzAwMDY4MTE3fQ.-dVm-aI4ozwWLhFYMJhirnCVJQLo4itlu3DypPC-5-A"
+          },
+          "message": {
+            "type": "string",
+            "example": "Email verify success"
           }
         }
       }
