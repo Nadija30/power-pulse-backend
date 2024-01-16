@@ -31,43 +31,70 @@ const addExercise = async (req, res) => {
     { new: true }
   );
 
-    res.status(200).json({ message: "Exercise updated", result: renewed });
+  res.status(200).json({ message: "Exercise updated", result: renewed });
 };
 
 // ADD PRODUCT
 // витягує айді юзера з токена
 // очікує в тілі запиту productId (string), date (string yyyy-mm-dd), grams (number), calories (number)
+
 const addProduct = async (req, res) => {
   const { _id: owner } = req.user;
-  const {
-    productId,
-    date,
-    grams: newGrams,
-    calories: newCalories,
-  } = req.body;
+  const { productId, date, grams: newGrams, calories: newCalories } = req.body;
 
-const exist = await ProductsDiary.findOneAndUpdate({ owner, productId, date },
-        {$set: { owner: req.user._id },
-            $inc: { grams: +newGrams, calories: +newCalories, }
-            
-        }, {new: true})
-    
- res.status(200).json({ message: "Product updated", result: exist });
+  const exist = await ProductsDiary.find({ owner, productId, date });
 
-    if (!exist.lendth) {
-        const newProduct = await ProductsDiary.create({ ...req.body, owner });
+  console.log(exist);
+
+  if (!exist.length) {
+    const newProduct = await ProductsDiary.create({ ...req.body, owner });
     res.status(201).json({ message: "Product added", result: newProduct });
-    }
+  }
+
+  const updatedProduct = await ProductsDiary.findOneAndUpdate(
+    { owner, productId, date },
+    {
+      $set: { owner: req.user._id },
+      $inc: { grams: +newGrams, calories: +newCalories },
+    },
+    { new: true }
+  );
+
+  console.log("updatedProduct >> ", updatedProduct);
+  res.status(200).json({ message: "Product updated", result: updatedProduct });
 };
 
+// const addProduct = async (req, res) => {
+//   const { _id: owner } = req.user;
+//   const { productId, date, grams: newGrams, calories: newCalories } = req.body;
+
+//   const exist = await ProductsDiary.findOneAndUpdate(
+//     { owner, productId, date },
+//     {
+//       $set: { owner: req.user._id },
+//       $inc: { grams: +newGrams, calories: +newCalories },
+//     },
+//     { new: true }
+//   );
+
+//   console.log(exist)
+
+//   res.status(200).json({ message: "Product updated", result: exist });
+
+//   if (!exist.length) {
+//     const newProduct = await ProductsDiary.create({ ...req.body, owner });
+//     res.status(201).json({ message: "Product added", result: newProduct });
+//   }
+// };
+
 const getProductsDiary = async (req, res) => {
-    const data = await ProductsDiary.find({});
-    res.json(data)
-}
+  const data = await ProductsDiary.find({});
+  res.json(data);
+};
 
 module.exports = {
   getDiaryInfo: ctrlWrapper(getDiaryInfo),
-    addExercise: ctrlWrapper(addExercise),
-    addProduct: ctrlWrapper(addProduct),
-  getProductsDiary: ctrlWrapper(getProductsDiary)
+  addExercise: ctrlWrapper(addExercise),
+  addProduct: ctrlWrapper(addProduct),
+  getProductsDiary: ctrlWrapper(getProductsDiary),
 };

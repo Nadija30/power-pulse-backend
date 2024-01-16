@@ -42,6 +42,7 @@ const productDiarySchema = new Schema(
 
 // Handle Mongoose save errors using a post middleware
 productDiarySchema.post("save", handleMongooseError);
+productDiarySchema.post("findOneAndUpdate", handleMongooseError);
 
 const ProductsDiary = model("productDiary", productDiarySchema);
 
