@@ -12,7 +12,7 @@ const exerciseDiarySchema = new Schema(
     exerciseId: {
       type: String,
       // type: Schema.Types.ObjectId,
-      ref: "Exercises",
+      ref: "exercise",
       required: [true, "ID is required"],
     },
     date: {

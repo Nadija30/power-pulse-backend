@@ -12,6 +12,7 @@ const productDiarySchema = new Schema(
   {
     productId: {
       type: String,
+      // type: Schema.Types.ObjectId,
       ref: "product",
       required: [true, 'ID is required'],
     },
