@@ -4,13 +4,21 @@ const ProductsDiary = require("../models/diaryProducts");
 // const ProductsDiary = require("../models/diaryProducts");
 
 // get all info for diary
+// очікує в тілі запиту date (string yyyy-mm-dd),
 const getDiaryInfo = async (req, res) => {
   const { _id: owner } = req.user;
+  const { date } = req.body;
 
-  const exercisesInDiary = await ExercisesDiary.find({ owner });
-  // const productsInDiary = await ProductsDiary.find({ owner });
+  // const exercisesInDiary = await ExercisesDiary.find({ owner }).populate({
+  //   path: "exercises",
+  //   select: "name bodyPart equipment",
+  //   options: {strictPopulate: false}
+  //   });
+  const productsInDiary = await ProductsDiary.find({ owner, date });
+  productsInDiary.map
 
-  res.status(200).json({exercisesInDiary})
+  console.log("exercise in diary: ", productsInDiary)
+  res.status(200).json({productsInDiary})
 
 };
 
