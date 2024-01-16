@@ -13,16 +13,16 @@ router.get('/', authenticate, ctrl.getDiaryInfo);
 router.post('/exercises', authenticate, ctrl.addExercise);
 
 // detele exercise 
-// router.delete('/exercises/:exId', authenticate, ctrl.getExercisesCategories);
+router.delete('/exercises/:exerciseId', authenticate, ctrl.deleteExercise);
 
 // add product to diary
 router.post('/products', authenticate, ctrl.addProduct);
 
 // detele product
-// router.delete('/products/:prodId', authenticate, ctrl.getExercisesCategories);
+router.delete('/products/:productId', authenticate, ctrl.deleteProduct);
 
 // test
-router.get('/products', authenticate, ctrl.getProductsDiary);
+// router.get('/products', authenticate, ctrl.getProductsDiary);
 
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const { ctrlWrapper } = require("../helpers");
+const { ctrlWrapper, HttpError } = require("../helpers");
 const ExercisesDiary = require("../models/diaryExercises");
 const ProductsDiary = require("../models/diaryProducts");
 // const ProductsDiary = require("../models/diaryProducts");
@@ -22,16 +22,18 @@ const addExercise = async (req, res) => {
 
   if (!exist.length) {
     const newEcercise = await ExercisesDiary.create({ ...req.body, owner });
-    res.status(201).json({ message: "Exercise added", result: newEcercise });
+    res.status(201).json({ message: "Ecercise added", result: newEcercise });
   }
 
-  const renewed = await ExercisesDiary.findByIdAndUpdate(
-    exist[0]._id,
-    { $inc: { burnedCalories: +newCalories, duration: +newDuration } },
+  const updatedExercise = await ExercisesDiary.findOneAndUpdate(
+    { owner, exerciseId, date },
+    {
+      $inc: { duration: +newDuration, burnedCalories: +newCalories },
+    },
     { new: true }
   );
 
-  res.status(200).json({ message: "Exercise updated", result: renewed });
+  res.status(200).json({ message: "Exercise updated", result: updatedExercise });
 };
 
 // ADD PRODUCT
@@ -44,8 +46,6 @@ const addProduct = async (req, res) => {
 
   const exist = await ProductsDiary.find({ owner, productId, date });
 
-  console.log(exist);
-
   if (!exist.length) {
     const newProduct = await ProductsDiary.create({ ...req.body, owner });
     res.status(201).json({ message: "Product added", result: newProduct });
@@ -54,47 +54,54 @@ const addProduct = async (req, res) => {
   const updatedProduct = await ProductsDiary.findOneAndUpdate(
     { owner, productId, date },
     {
-      $set: { owner: req.user._id },
       $inc: { grams: +newGrams, calories: +newCalories },
     },
     { new: true }
   );
 
-  console.log("updatedProduct >> ", updatedProduct);
+  // console.log("updatedProduct >> ", updatedProduct);
   res.status(200).json({ message: "Product updated", result: updatedProduct });
 };
 
-// const addProduct = async (req, res) => {
-//   const { _id: owner } = req.user;
-//   const { productId, date, grams: newGrams, calories: newCalories } = req.body;
 
-//   const exist = await ProductsDiary.findOneAndUpdate(
-//     { owner, productId, date },
-//     {
-//       $set: { owner: req.user._id },
-//       $inc: { grams: +newGrams, calories: +newCalories },
-//     },
-//     { new: true }
-//   );
+// DELETE EXERCISE
+// очікує в динамічній частині шляху exerciseId - айді запису вправи в щоденнику
+const deleteExercise = async (req, res) => {
+  const { exerciseId } = req.params;
 
-//   console.log(exist)
+  const result = await ExercisesDiary.findByIdAndDelete(exerciseId);
 
-//   res.status(200).json({ message: "Product updated", result: exist });
+  if (!result) {
+    throw HttpError(404, "Exercise not found");
+  }
 
-//   if (!exist.length) {
-//     const newProduct = await ProductsDiary.create({ ...req.body, owner });
-//     res.status(201).json({ message: "Product added", result: newProduct });
-//   }
-// };
-
-const getProductsDiary = async (req, res) => {
-  const data = await ProductsDiary.find({});
-  res.json(data);
+  res.status(200).json({ message: "Exercise deleted"});
 };
+
+// DELETE PRODUCT
+// очікує в динамічній частині шляху productId - айді запису проукту в щоденнику
+const deleteProduct = async (req, res) => {
+  const { productId } = req.params;
+  
+  const result = await ProductsDiary.findByIdAndDelete(productId);
+
+  if (!result) {
+    throw HttpError(404, "Product not found");
+  }
+  
+  res.status(200).json({ message: "Product deleted"});
+};
+
+// const getProductsDiary = async (req, res) => {
+//   const data = await ProductsDiary.find({});
+//   res.json(data);
+// };
 
 module.exports = {
   getDiaryInfo: ctrlWrapper(getDiaryInfo),
   addExercise: ctrlWrapper(addExercise),
   addProduct: ctrlWrapper(addProduct),
-  getProductsDiary: ctrlWrapper(getProductsDiary),
+  deleteExercise: ctrlWrapper(deleteExercise),
+  deleteProduct: ctrlWrapper(deleteProduct),
+  // getProductsDiary: ctrlWrapper(getProductsDiary),
 };
