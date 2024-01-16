@@ -4,7 +4,15 @@ const ProductsDiary = require("../models/diaryProducts");
 // const ProductsDiary = require("../models/diaryProducts");
 
 // get all info for diary
-const getDiaryInfo = async (req, res) => {};
+const getDiaryInfo = async (req, res) => {
+  const { _id: owner } = req.user;
+
+  const exercisesInDiary = await ExercisesDiary.find({ owner });
+  // const productsInDiary = await ProductsDiary.find({ owner });
+
+  res.status(200).json({exercisesInDiary})
+
+};
 
 // ADD EXERCISE
 // витягує айді юзера з токена
@@ -82,7 +90,7 @@ const deleteExercise = async (req, res) => {
 // очікує в динамічній частині шляху productId - айді запису проукту в щоденнику
 const deleteProduct = async (req, res) => {
   const { productId } = req.params;
-  
+
   const result = await ProductsDiary.findByIdAndDelete(productId);
 
   if (!result) {

@@ -21,8 +21,4 @@ router.post('/products', authenticate, ctrl.addProduct);
 // detele product
 router.delete('/products/:productId', authenticate, ctrl.deleteProduct);
 
-// test
-// router.get('/products', authenticate, ctrl.getProductsDiary);
-
-
 module.exports = router;

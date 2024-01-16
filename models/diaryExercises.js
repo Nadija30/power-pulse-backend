@@ -33,7 +33,7 @@ const exerciseDiarySchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
       required: true,
-      select: false,
+      // select: false,
     },
   },
   { versionKey: false }
