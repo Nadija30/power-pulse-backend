@@ -10,7 +10,7 @@ const getDiaryInfo = async (req, res) => {
 
   const productsInDiary = await ProductsDiary.find({ owner, date }).populate(
     "productId",
-    "title category calories weight groupBloodNotAllowed"
+    "title category groupBloodNotAllowed"
   );
 
   const exercisesInDiary = await ExercisesDiary.find({ owner, date }).populate(
@@ -28,7 +28,7 @@ const getDiaryInfo = async (req, res) => {
 
   // calories consumed, скільки калорій спожито за день
   const consumedCaloriesByDateArr = productsInDiary.map(
-    (one) => one.productId.calories
+    (one) => one.calories
   );
   const consumedCaloriesByDate = consumedCaloriesByDateArr.reduce(
     (accumulator, currentValue) => accumulator + currentValue
