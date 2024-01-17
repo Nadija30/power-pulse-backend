@@ -11,6 +11,7 @@ const exerciseDiarySchema = new Schema(
   {
     exerciseId: {
       type: String,
+      // type: Schema.Types.ObjectId,
       ref: "exercise",
       required: [true, "ID is required"],
     },

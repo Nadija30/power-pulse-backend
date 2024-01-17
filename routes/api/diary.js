@@ -7,7 +7,7 @@ const { authenticate } = require('../../middlewares');
 const ctrl = require('../../controllers/diary');
 
 // get all info for diary
-router.get('/', authenticate, ctrl.getDiaryInfo);
+router.get('/:date', authenticate, ctrl.getDiaryInfo);
 
 // add exercise to diary
 router.post('/exercises', authenticate, ctrl.addExercise);

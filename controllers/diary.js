@@ -1,17 +1,53 @@
 const { ctrlWrapper, HttpError } = require("../helpers");
 const ExercisesDiary = require("../models/diaryExercises");
 const ProductsDiary = require("../models/diaryProducts");
-// const ProductsDiary = require("../models/diaryProducts");
 
-// get all info for diary
+// GET ALL INFO for diary
+// очікує в динамічній частині шляху date (yyyy-mm-dd) - дату запису в щоденнику
 const getDiaryInfo = async (req, res) => {
   const { _id: owner } = req.user;
+  const { date } = req.params;
 
-  const exercisesInDiary = await ExercisesDiary.find({ owner });
-  // const productsInDiary = await ProductsDiary.find({ owner });
+  const productsInDiary = await ProductsDiary.find({ owner, date }).populate(
+    "productId",
+    "title category calories weight groupBloodNotAllowed"
+  );
 
-  res.status(200).json({exercisesInDiary})
+  const exercisesInDiary = await ExercisesDiary.find({ owner, date }).populate(
+    "exerciseId",
+    "bodyPart equipment name target"
+  );
 
+  // скільки калорій спалено за день
+  const burnedCaloriesByDateArr = exercisesInDiary.map(
+    (one) => one.burnedCalories
+  );
+  const burnedCaloriesByDate = burnedCaloriesByDateArr.reduce(
+    (accumulator, currentValue) => accumulator + currentValue
+  );
+
+  // calories consumed, скільки калорій спожито за день
+  const consumedCaloriesByDateArr = productsInDiary.map(
+    (one) => one.productId.calories
+  );
+  const consumedCaloriesByDate = consumedCaloriesByDateArr.reduce(
+    (accumulator, currentValue) => accumulator + currentValue
+  );
+
+  // кількість часу, яку залишилось приділити спорту в межах добової норми (на основі часу, витраченого на спорт)
+  const sportsTimeArr = exercisesInDiary.map((one) => one.duration);
+  const sportsTime = sportsTimeArr.reduce(
+    (accumulator, currentValue) => accumulator + currentValue
+  );
+  const sportsRemaining = 110 - sportsTime;
+
+  res.status(200).json({
+    burnedCaloriesByDate,
+    consumedCaloriesByDate,
+    sportsRemaining,
+    productsInDiary,
+    exercisesInDiary,
+  });
 };
 
 // ADD EXERCISE
@@ -41,7 +77,9 @@ const addExercise = async (req, res) => {
     { new: true }
   );
 
-  res.status(200).json({ message: "Exercise updated", result: updatedExercise });
+  res
+    .status(200)
+    .json({ message: "Exercise updated", result: updatedExercise });
 };
 
 // ADD PRODUCT
@@ -67,10 +105,8 @@ const addProduct = async (req, res) => {
     { new: true }
   );
 
-  // console.log("updatedProduct >> ", updatedProduct);
   res.status(200).json({ message: "Product updated", result: updatedProduct });
 };
-
 
 // DELETE EXERCISE
 // очікує в динамічній частині шляху exerciseId - айді запису вправи в щоденнику
@@ -83,7 +119,7 @@ const deleteExercise = async (req, res) => {
     throw HttpError(404, "Exercise not found");
   }
 
-  res.status(200).json({ message: "Exercise deleted"});
+  res.status(200).json({ message: "Exercise deleted" });
 };
 
 // DELETE PRODUCT
@@ -96,14 +132,9 @@ const deleteProduct = async (req, res) => {
   if (!result) {
     throw HttpError(404, "Product not found");
   }
-  
-  res.status(200).json({ message: "Product deleted"});
-};
 
-// const getProductsDiary = async (req, res) => {
-//   const data = await ProductsDiary.find({});
-//   res.json(data);
-// };
+  res.status(200).json({ message: "Product deleted" });
+};
 
 module.exports = {
   getDiaryInfo: ctrlWrapper(getDiaryInfo),
@@ -111,5 +142,4 @@ module.exports = {
   addProduct: ctrlWrapper(addProduct),
   deleteExercise: ctrlWrapper(deleteExercise),
   deleteProduct: ctrlWrapper(deleteProduct),
-  // getProductsDiary: ctrlWrapper(getProductsDiary),
 };
