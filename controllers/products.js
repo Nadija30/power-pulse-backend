@@ -22,8 +22,7 @@ const getProductCategories = async (req, res) => {
 // фільтри з параметрів запиту
 
 const getProducts = async (req, res) => {
-  const { page = 1, limit = 8, category, searchQuery, allowed } = req.query;
-  const skip = (page - 1) * limit;
+  const { category, searchQuery, allowed } = req.query;
   const { blood } = req.user;
   // const blood = 2;
 
@@ -33,22 +32,13 @@ const getProducts = async (req, res) => {
   if (allowed === "yes") config[`groupBloodNotAllowed.${blood}`] = true;
   if (allowed === "no") config[`groupBloodNotAllowed.${blood}`] = false;
 
-  const total = await Product.countDocuments({});
-  const data = await Product.find(config, "", { skip, limit });
+  const data = await Product.find(config);
 
   if (!data.length) {
     throw HttpError(404, "No products found");
   }
 
-  const totalPages = Math.ceil(total / limit);
-  const currentPage = Math.ceil(skip / data.length) + 1;
-  const perPage = limit;
-  // console.log(data.length, limit, totalPages, total);
-
   res.json({
-    totalPages,
-    currentPage,
-    perPage,
     result: data,
   });
 };
