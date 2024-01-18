@@ -487,6 +487,14 @@
         "summary": "Get all info for diary",
         "parameters": [
           {
+            "in": "params",
+            "name": "Path Variables",
+            "required": true,
+            "type": "string",
+            "value": "2024-15-08",
+            "description": "Date must be in 'yyyy-mm-dd' format"
+          },
+          {
             "in": "header",
             "name": "Authorization token",
             "schema": {
@@ -509,7 +517,7 @@
             }
           },
           "404": {
-            "description": "No products found",
+            "description": "Not found",
             "content": {}
           }
         }
