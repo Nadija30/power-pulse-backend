@@ -453,20 +453,29 @@
           }
         ],
         "security": [{ "Bearer": [] }],
-        "requestBody": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiaryExercisesRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DiaryResponse"
+                  "$ref": "#/components/schemas/DiaryExercisesResponse"
                 }
               }
             }
           },
-          "404": {
-            "description": "No products found",
+          "400": {
+            "description": "Bad Request",
             "content": {}
           }
         }
@@ -512,6 +521,14 @@
         "summary": "Detele exercise ",
         "parameters": [
           {
+            "in": "params",
+            "name": "Path Variables",
+            "required": true,
+            "type": "string",
+            "value": "65a862d428b876f59e36ca76",
+            "description": "diary entry _id"
+          },
+          {
             "in": "header",
             "name": "Authorization token",
             "schema": {
@@ -524,17 +541,11 @@
         "requestBody": {},
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DiaryDeleteExercisesResponse"
-                }
-              }
-            }
+            "description": "Exercise deleted",
+            "content": {}
           },
           "404": {
-            "description": "No products found",
+            "description": "Exercise not found",
             "content": {}
           }
         }
@@ -555,7 +566,16 @@
           }
         ],
         "security": [{ "Bearer": [] }],
-        "requestBody": {},
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiaryProductsRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -567,8 +587,8 @@
               }
             }
           },
-          "404": {
-            "description": "No products found",
+          "400": {
+            "description": "Bad Request",
             "content": {}
           }
         }
@@ -579,6 +599,14 @@
         "tags": ["Diary"],
         "summary": "Detele product ",
         "parameters": [
+          {
+            "in": "params",
+            "name": "Path Variables",
+            "required": true,
+            "type": "string",
+            "value": "65a86c2610bb79ff31c105bb",
+            "description": "diary entry _id"
+          },
           {
             "in": "header",
             "name": "Authorization token",
@@ -592,17 +620,11 @@
         "requestBody": {},
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DiaryProductsDeleteResponse"
-                }
-              }
-            }
+            "description": "Product deleted",
+            "content": {}
           },
           "404": {
-            "description": "No products found",
+            "description": "Product not found",
             "content": {}
           }
         }
@@ -1038,6 +1060,129 @@
           "soft drinks",
           "vegetables and herbs"
         ]
+      },
+      "DiaryExercisesRequest": {
+        "type": "object",
+        "required": ["exerciseId ", "date", "duration ", "burnedCalories"],
+        "properties": {
+          "exerciseId": {
+            "type": "string",
+            "ref": "exercise",
+            "example": "64f2458d6f67bc34bae4f7f7"
+          },
+          "date": {
+            "type": "string",
+            "match": ["Date must be in 'yyyy-mm-dd' format"],
+            "example": "2024-15-01"
+          },
+          "duration": {
+            "type": "number",
+            "min": [1, "The time cannot be less than 1 minute"],
+            "example": "2"
+          },
+          "burnedCalories": {
+            "type": "number",
+            "example": "220"
+          }
+        }
+      },
+      "DiaryExercisesResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Ecercise added"
+          },
+          "result": {
+            "properties": {
+              "exerciseId": {
+                "type": "string",
+                "example": "64f2458d6f67bc34bae4f7f7"
+              },
+              "date": {
+                "type": "string",
+                "example": "2024-15-01"
+              },
+              "duration": {
+                "type": "number",
+                "example": "2"
+              },
+              "burnedCalories": {
+                "type": "number",
+                "example": "220"
+              },
+              "owner": {
+                "type": "string",
+                "example": "65a860671ad02f21b93db378"
+              },
+              "_id": {
+                "type": "string",
+                "example": "65a862d428b876f59e36ca76"
+              }
+            }
+          }
+        }
+      },
+      "DiaryProductsRequest": {
+        "type": "object",
+        "required": ["exerciseId ", "date", "duration ", "burnedCalories"],
+        "properties": {
+          "productId": {
+            "type": "string",
+            "ref": "product",
+            "example": "5d51694902b2373622ff5773"
+          },
+          "date": {
+            "type": "string",
+            "match": ["Date must be in 'yyyy-mm-dd' format"],
+            "example": "2024-15-08"
+          },
+          "grams": {
+            "type": "number",
+            "example": "50"
+          },
+          "calories": {
+            "type": "number",
+            "example": "260"
+          }
+        }
+      },
+      "DiaryProductsResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Product added"
+          },
+          "result": {
+            "properties": {
+              "productId": {
+                "type": "string",
+                "example": "5d51694902b2373622ff5773"
+              },
+              "date": {
+                "type": "string",
+                "example": "2024-15-08"
+              },
+              "grams": {
+                "type": "number",
+                "example": "50"
+              },
+              "calories": {
+                "type": "number",
+                "example": "260"
+              },
+              "owner": {
+                "type": "string",
+                "example": "65a860671ad02f21b93db378"
+              },
+              "_id": {
+                "type": "string",
+                "example": "65a86c2610bb79ff31c105bb"
+              }
+            }
+          }
+        }
       }
     }
   },
