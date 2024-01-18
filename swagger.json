@@ -1191,6 +1191,83 @@
             }
           }
         }
+      },
+      "DiaryDateResponse": {
+        "type": "object",
+        "properties": {
+          "burnedCaloriesByDate": {
+            "type": "number",
+            "example": "820"
+          },
+          "consumedCaloriesByDate": {
+            "type": "number",
+            "example": "76"
+          },
+          "productsInDiary": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "65a862d428b876f59e36ca76"
+                },
+                "productId": {
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5d51694902b2373622ff5773"
+                    },
+                    "weight": {
+                      "type": "number",
+                      "example": "100"
+                    },
+                    "category": {
+                      "type": "string",
+                      "example": "fish"
+                    },
+                    "calories": {
+                      "type": "number",
+                      "example": "281"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "Pollock in batter"
+                    },
+                    "groupBloodNotAllowed": {
+                      "properties": {
+                        "1": {
+                          "type": "boolean",
+                          "example": "false"
+                        },
+                        "2": {
+                          "type": "boolean",
+                          "example": "false"
+                        },
+                        "3": {
+                          "type": "boolean",
+                          "example": "false"
+                        },
+                        "4": {
+                          "type": "boolean",
+                          "example": "false"
+                        }
+                      }
+                    }
+                  }
+                },
+                "date": {
+                  "type": "string",
+                  "example": "2024-01-15"
+                },
+                "grams": {
+                  "type": "number",
+                  "example": "100"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
