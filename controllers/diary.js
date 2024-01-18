@@ -23,7 +23,7 @@ const getDiaryInfo = async (req, res) => {
     (one) => one.burnedCalories
   );
   const burnedCaloriesByDate = burnedCaloriesByDateArr.reduce(
-    (accumulator, currentValue) => accumulator + currentValue, 0
+    (accumulator, currentValue) => accumulator + currentValue
   );
 
   // calories consumed, скільки калорій спожито за день
@@ -31,13 +31,13 @@ const getDiaryInfo = async (req, res) => {
     (one) => one.calories
   );
   const consumedCaloriesByDate = consumedCaloriesByDateArr.reduce(
-    (accumulator, currentValue) => accumulator + currentValue, 0
+    (accumulator, currentValue) => accumulator + currentValue
   );
 
   // кількість часу, яку залишилось приділити спорту в межах добової норми (на основі часу, витраченого на спорт)
   const sportsTimeArr = exercisesInDiary.map((one) => one.duration);
   const sportsTime = sportsTimeArr.reduce(
-    (accumulator, currentValue) => accumulator + currentValue, 0
+    (accumulator, currentValue) => accumulator + currentValue
   );
   const sportsRemaining = 110 - sportsTime;
 
