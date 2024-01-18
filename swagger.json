@@ -114,7 +114,16 @@
       "get": {
         "tags": ["Auth"],
         "summary": "Current user",
-        "paramrters": [],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "requestBody": {},
         "responses": {
