@@ -39,7 +39,6 @@
         "tags": ["Auth"],
         "summary": "User registration",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
@@ -115,16 +114,7 @@
       "get": {
         "tags": ["Auth"],
         "summary": "Current user",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization token",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
+        "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {},
         "responses": {
@@ -149,16 +139,7 @@
       "post": {
         "tags": ["Auth"],
         "summary": "User logout",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization token",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
+        "parameters": [],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -179,16 +160,7 @@
       "patch": {
         "tags": ["Auth"],
         "summary": "Update user avatar",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization token",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
+        "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Update avatar object",
@@ -293,14 +265,6 @@
             "required": true,
             "type": "string",
             "value": "Page,limit, filter"
-          },
-          {
-            "in": "header",
-            "name": "Authorization token",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
           }
         ],
         "security": [{ "Bearer": [] }],
@@ -341,14 +305,6 @@
             "type": "string",
             "value": "Page,limit, category, specific",
             "description": "category (Body parts || Equipment || Muscles)"
-          },
-          {
-            "in": "header",
-            "name": "Authorization token",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
           }
         ],
         "security": [{ "Bearer": [] }],
@@ -383,14 +339,6 @@
             "type": "string",
             "value": "category,searchQuery,allowed - are optional",
             "description": "allowed - string (yes || no)"
-          },
-          {
-            "in": "header",
-            "name": "Authorization token",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
           }
         ],
         "security": [{ "Bearer": [] }],
@@ -418,16 +366,7 @@
       "get": {
         "tags": ["Products"],
         "summary": "Get all categories ",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization token",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
+        "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {},
         "responses": {
@@ -452,16 +391,7 @@
       "post": {
         "tags": ["Diary"],
         "summary": "Add exercise to diary ",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization token",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
+        "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "required": true,
@@ -491,7 +421,7 @@
         }
       }
     },
-    "/diary/:date": {
+    "/diary/{date}": {
       "get": {
         "tags": ["Diary"],
         "summary": "Get all info for diary",
@@ -503,14 +433,6 @@
             "type": "string",
             "value": "2024-15-08",
             "description": "Date must be in 'yyyy-mm-dd' format"
-          },
-          {
-            "in": "header",
-            "name": "Authorization token",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
           }
         ],
         "security": [{ "Bearer": [] }],
@@ -533,7 +455,7 @@
         }
       }
     },
-    "/diary/exercises/:exerciseId": {
+    "/diary/exercises/{exerciseId}": {
       "delete": {
         "tags": ["Diary"],
         "summary": "Detele exercise ",
@@ -545,14 +467,6 @@
             "type": "string",
             "value": "65a862d428b876f59e36ca76",
             "description": "diary entry _id"
-          },
-          {
-            "in": "header",
-            "name": "Authorization token",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
           }
         ],
         "security": [{ "Bearer": [] }],
@@ -573,16 +487,7 @@
       "post": {
         "tags": ["Diary"],
         "summary": "Add product to diary ",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization token",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
+        "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "required": true,
@@ -735,10 +640,6 @@
                 "type": "string",
                 "description": "User's _id"
               },
-              "password": {
-                "type": "string",
-                "description": "User's password"
-              },
               "verify": {
                 "type": "boolean",
                 "example": "true or false"
@@ -794,10 +695,6 @@
               "_id": {
                 "type": "string",
                 "description": "User's _id"
-              },
-              "password": {
-                "type": "string",
-                "description": "User's password"
               },
               "verify": {
                 "type": "boolean",
