@@ -113,6 +113,7 @@ const addUserData = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 const getUserParams = async (req, res, next) => {
   try {
     const { email } = req.user;
