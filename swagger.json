@@ -1,0 +1,1290 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "2.0.2",
+    "title": "Power-pulse",
+    "description": "Showing off swagger-ui-express",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [
+    { "url": "http://localhost:3000" },
+    { "url": "https://power-pulse-backend.onrender.com" }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Exercises",
+      "description": "Exercises endpoints"
+    },
+    {
+      "name": "Diary",
+      "description": "Diary endpoints"
+    },
+    {
+      "name": "Products",
+      "description": "Products endpoints"
+    }
+  ],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "409": {
+            "description": "Email in use",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "paramrters": [],
+        "requestBody": {
+          "description": "Login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email or password is wrong",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/current": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Current user",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "User successfully logged out"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/avatars": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "Update user avatar",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Update avatar object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AvatarsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvatarsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/verify": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Verify email (send virification email)",
+        "paramrters": [],
+        "requestBody": {
+          "description": "Verification email object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyEmailRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verification email sent",
+            "content": {}
+          },
+          "400": {
+            "description": "Verification has already been passed",
+            "content": {}
+          },
+          "404": {
+            "description": "User not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/verify/:verificationCode": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Verify email with a verification token",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "Path Variables",
+            "required": true,
+            "type": "string",
+            "description": "verificationCode",
+            "value": "aLKrq59NbdVXHRI7agL6U"
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "Email verify succes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerificationCodeResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email not found",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/exercises": {
+      "get": {
+        "tags": ["Exercises"],
+        "summary": "Get all exercises",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "Query Params",
+            "required": true,
+            "type": "string",
+            "value": "Page,limit, filter"
+          },
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExercisesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/exercises/filter": {
+      "get": {
+        "tags": ["Exercises"],
+        "summary": "Exercises by category ",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "Query Params",
+            "required": true,
+            "type": "string",
+            "value": "Page,limit, category, specific",
+            "description": "category (Body parts || Equipment || Muscles)"
+          },
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExercisesCategoryResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/produts": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get all products ",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "Query Params",
+            "required": true,
+            "type": "string",
+            "value": "category,searchQuery,allowed - are optional",
+            "description": "allowed - string (yes || no)"
+          },
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No products found",
+            "content": {}
+          }
+        }
+      }
+    },
+
+    "/produts/categories": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get all categories ",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsCategoriesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No categories found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/diary/exercises": {
+      "post": {
+        "tags": ["Diary"],
+        "summary": "Add exercise to diary ",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiaryExercisesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiaryExercisesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/diary/:date": {
+      "get": {
+        "tags": ["Diary"],
+        "summary": "Get all info for diary",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "Path Variables",
+            "required": true,
+            "type": "string",
+            "value": "2024-15-08",
+            "description": "Date must be in 'yyyy-mm-dd' format"
+          },
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiaryDateResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/diary/exercises/:exerciseId": {
+      "delete": {
+        "tags": ["Diary"],
+        "summary": "Detele exercise ",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "Path Variables",
+            "required": true,
+            "type": "string",
+            "value": "65a862d428b876f59e36ca76",
+            "description": "diary entry _id"
+          },
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "Exercise deleted",
+            "content": {}
+          },
+          "404": {
+            "description": "Exercise not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/diary/products": {
+      "post": {
+        "tags": ["Diary"],
+        "summary": "Add product to diary ",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiaryProductsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiaryProductsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/diary/products/:productId": {
+      "delete": {
+        "tags": ["Diary"],
+        "summary": "Detele product ",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "Path Variables",
+            "required": true,
+            "type": "string",
+            "value": "65a86c2610bb79ff31c105bb",
+            "description": "diary entry _id"
+          },
+          {
+            "in": "header",
+            "name": "Authorization token",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "Product deleted",
+            "content": {}
+          },
+          "404": {
+            "description": "Product not found",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "minLength": "3",
+            "example": "test1"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "test1@gmail.com",
+            "pattern": "/^w+@[a-zA-Z_]+?.[a-zA-Z]{2,3}$/"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "pass123",
+            "minlength": "6"
+          }
+        }
+      },
+
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "test1"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email",
+                "example": "test123@gmail.com"
+              }
+            }
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "pattern": "/^w+@[a-zA-Z_]+?.[a-zA-Z]{2,3}$/",
+            "example": "test1@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "test123",
+            "minlength": "6"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTNiN2E1ZGRjY2RjMDhiNmJmOWE0YSIsImlhdCI6MTY5OTk4NTMxNywiZXhwIjoxNzAwMDY4MTE3fQ.-dVm-aI4ozwWLhFYMJhirnCVJQLo4itlu3DypPC-5-A"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "test1"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email",
+                "example": "test1@gmail.com"
+              },
+              "_id": {
+                "type": "string",
+                "description": "User's _id"
+              },
+              "password": {
+                "type": "string",
+                "description": "User's password"
+              },
+              "verify": {
+                "type": "boolean",
+                "example": "true or false"
+              },
+              "verificationToken": {
+                "type": "string"
+              },
+              "height": {
+                "type": "number"
+              },
+              "currentWeight": {
+                "type": "number"
+              },
+              "desiredWeight": {
+                "type": "number"
+              },
+              "birthday": {
+                "type": "Date"
+              },
+              "blood": {
+                "type": "number"
+              },
+              "sex": {
+                "type": "string"
+              },
+              "levelActivity": {
+                "type": "number"
+              },
+              "bmr": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "CurrentResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "test1"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email",
+                "example": "test1@gmail.com"
+              },
+              "_id": {
+                "type": "string",
+                "description": "User's _id"
+              },
+              "password": {
+                "type": "string",
+                "description": "User's password"
+              },
+              "verify": {
+                "type": "boolean",
+                "example": "true or false"
+              },
+              "verificationToken": {
+                "type": "string"
+              },
+              "height": {
+                "type": "number"
+              },
+              "currentWeight": {
+                "type": "number"
+              },
+              "desiredWeight": {
+                "type": "number"
+              },
+              "birthday": {
+                "type": "Date"
+              },
+              "blood": {
+                "type": "number"
+              },
+              "sex": {
+                "type": "string"
+              },
+              "levelActivity": {
+                "type": "number"
+              },
+              "token": {
+                "type": "string",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTNiN2E1ZGRjY2RjMDhiNmJmOWE0YSIsImlhdCI6MTY5OTk4NTMxNywiZXhwIjoxNzAwMDY4MTE3fQ.-dVm-aI4ozwWLhFYMJhirnCVJQLo4itlu3DypPC-5-A"
+              },
+              "bmr": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "AvatarsRequest": {
+        "required": ["Key"],
+        "properties": {
+          "Key": {
+            "type": "file"
+          }
+        }
+      },
+      "AvatarsResponse": {
+        "type": "object",
+        "properties": {
+          "avatarURL": {
+            "type": "string",
+            "description": "User's avatars",
+            "example": "https://res.cloudinary.com/dc0fzggki/image/upload/v1705436593/avatars/a-cupcake-with-a-strawberry-on-top-and-a-strawberry-on-the-top.jpg.jpg"
+          }
+        }
+      },
+      "VerifyEmailRequest": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        }
+      },
+      "VerificationCodeResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTNiN2E1ZGRjY2RjMDhiNmJmOWE0YSIsImlhdCI6MTY5OTk4NTMxNywiZXhwIjoxNzAwMDY4MTE3fQ.-dVm-aI4ozwWLhFYMJhirnCVJQLo4itlu3DypPC-5-A"
+          },
+          "message": {
+            "type": "string",
+            "example": "Email verify success"
+          }
+        }
+      },
+      "ExercisesRequest": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        }
+      },
+
+      "ExercisesResponse": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "number",
+            "example": "12"
+          },
+          "currentPage": {
+            "type": "number",
+            "example": "1"
+          },
+          "perPage": {
+            "type": "string",
+            "example": "5"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "650f35ece3f5522fc6396293"
+                },
+                "filter": {
+                  "type": "string",
+                  "example": "Equipment"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "assisted"
+                },
+                "imgURL": {
+                  "type": "string",
+                  "format": "uri",
+                  "example": "https://ftp.goit.study/img/power-pulse/filters/assisted_gukduh.jpg"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ExercisesCategoryResponse": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "number",
+            "example": "111"
+          },
+          "currentPage": {
+            "type": "number",
+            "example": "2"
+          },
+          "perPage": {
+            "type": "string",
+            "example": "12"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "650f35ece3f5522fc6396293"
+                },
+                "bodyPart": {
+                  "type": "string",
+                  "example": "upper arms"
+                },
+                "equipment": {
+                  "type": "string",
+                  "example": "dumbbell"
+                },
+                "gifUrl": {
+                  "type": "string",
+                  "format": "uri",
+                  "example": "https://ftp.goit.study/img/power-pulse/gifs/0297.gif"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "dumbbell concentration curl"
+                },
+                "target": {
+                  "type": "string",
+                  "example": "biceps"
+                },
+                "burnedCalories": {
+                  "type": "number",
+                  "example": "184"
+                },
+                "time": {
+                  "type": "number",
+                  "example": "3"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProductsResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "5d51694902b2373622ff59ef"
+                },
+                "weight": {
+                  "type": "number",
+                  "example": "100"
+                },
+                "calories": {
+                  "type": "number",
+                  "example": "340"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "meat"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Beef liver pate classic"
+                },
+                "groupBloodNotAllowed": {
+                  "type": "object",
+                  "properties": {
+                    "1": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "2": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "3": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "4": {
+                      "type": "boolean",
+                      "example": "false"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProductsCategoriesResponse": {
+        "type": "array",
+        "example": [
+          "alcoholic drinks",
+          "berries",
+          "cereals",
+          "dairy",
+          "dried fruits",
+          "eggs",
+          "fish",
+          "flour",
+          "fruits",
+          "meat",
+          "mushrooms",
+          "nuts",
+          "oils and fats",
+          "poppy",
+          "sausage",
+          "seeds",
+          "sesame",
+          "soft drinks",
+          "vegetables and herbs"
+        ]
+      },
+      "DiaryExercisesRequest": {
+        "type": "object",
+        "required": ["exerciseId ", "date", "duration ", "burnedCalories"],
+        "properties": {
+          "exerciseId": {
+            "type": "string",
+            "ref": "exercise",
+            "example": "64f2458d6f67bc34bae4f7f7"
+          },
+          "date": {
+            "type": "string",
+            "match": ["Date must be in 'yyyy-mm-dd' format"],
+            "example": "2024-15-01"
+          },
+          "duration": {
+            "type": "number",
+            "min": [1, "The time cannot be less than 1 minute"],
+            "example": "2"
+          },
+          "burnedCalories": {
+            "type": "number",
+            "example": "220"
+          }
+        }
+      },
+      "DiaryExercisesResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Ecercise added"
+          },
+          "result": {
+            "properties": {
+              "exerciseId": {
+                "type": "string",
+                "example": "64f2458d6f67bc34bae4f7f7"
+              },
+              "date": {
+                "type": "string",
+                "example": "2024-15-01"
+              },
+              "duration": {
+                "type": "number",
+                "example": "2"
+              },
+              "burnedCalories": {
+                "type": "number",
+                "example": "220"
+              },
+              "owner": {
+                "type": "string",
+                "example": "65a860671ad02f21b93db378"
+              },
+              "_id": {
+                "type": "string",
+                "example": "65a862d428b876f59e36ca76"
+              }
+            }
+          }
+        }
+      },
+      "DiaryProductsRequest": {
+        "type": "object",
+        "required": ["exerciseId ", "date", "duration ", "burnedCalories"],
+        "properties": {
+          "productId": {
+            "type": "string",
+            "ref": "product",
+            "example": "5d51694902b2373622ff5773"
+          },
+          "date": {
+            "type": "string",
+            "match": ["Date must be in 'yyyy-mm-dd' format"],
+            "example": "2024-15-08"
+          },
+          "grams": {
+            "type": "number",
+            "example": "50"
+          },
+          "calories": {
+            "type": "number",
+            "example": "260"
+          }
+        }
+      },
+      "DiaryProductsResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Product added"
+          },
+          "result": {
+            "properties": {
+              "productId": {
+                "type": "string",
+                "example": "5d51694902b2373622ff5773"
+              },
+              "date": {
+                "type": "string",
+                "example": "2024-15-08"
+              },
+              "grams": {
+                "type": "number",
+                "example": "50"
+              },
+              "calories": {
+                "type": "number",
+                "example": "260"
+              },
+              "owner": {
+                "type": "string",
+                "example": "65a860671ad02f21b93db378"
+              },
+              "_id": {
+                "type": "string",
+                "example": "65a86c2610bb79ff31c105bb"
+              }
+            }
+          }
+        }
+      },
+      "DiaryDateResponse": {
+        "type": "object",
+        "properties": {
+          "burnedCaloriesByDate": {
+            "type": "number",
+            "example": "820"
+          },
+          "consumedCaloriesByDate": {
+            "type": "number",
+            "example": "76"
+          },
+          "productsInDiary": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "65a862d428b876f59e36ca76"
+                },
+                "productId": {
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5d51694902b2373622ff5773"
+                    },
+                    "weight": {
+                      "type": "number",
+                      "example": "100"
+                    },
+                    "category": {
+                      "type": "string",
+                      "example": "fish"
+                    },
+                    "calories": {
+                      "type": "number",
+                      "example": "281"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "Pollock in batter"
+                    },
+                    "groupBloodNotAllowed": {
+                      "properties": {
+                        "1": {
+                          "type": "boolean",
+                          "example": "false"
+                        },
+                        "2": {
+                          "type": "boolean",
+                          "example": "false"
+                        },
+                        "3": {
+                          "type": "boolean",
+                          "example": "false"
+                        },
+                        "4": {
+                          "type": "boolean",
+                          "example": "false"
+                        }
+                      }
+                    }
+                  }
+                },
+                "date": {
+                  "type": "string",
+                  "example": "2024-01-15"
+                },
+                "grams": {
+                  "type": "number",
+                  "example": "100"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "securitySchemes": {
+    "Bearer": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "JWT"
+    }
+  }
+}
