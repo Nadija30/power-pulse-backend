@@ -39,6 +39,7 @@
         "tags": ["Auth"],
         "summary": "User registration",
         "parameters": [],
+        "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
@@ -74,7 +75,7 @@
     },
     "/api/auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": ["Auth "],
         "summary": "User login",
         "paramrters": [],
         "requestBody": {
@@ -611,7 +612,7 @@
         }
       }
     },
-    "/diary/products/:productId": {
+    "/diary/products/{productId}": {
       "delete": {
         "tags": ["Diary"],
         "summary": "Detele product ",
@@ -623,14 +624,6 @@
             "type": "string",
             "value": "65a86c2610bb79ff31c105bb",
             "description": "diary entry _id"
-          },
-          {
-            "in": "header",
-            "name": "Authorization token",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
           }
         ],
         "security": [{ "Bearer": [] }],
@@ -1278,13 +1271,13 @@
           }
         }
       }
-    }
-  },
-  "securitySchemes": {
-    "Bearer": {
-      "type": "http",
-      "scheme": "bearer",
-      "bearerFormat": "JWT"
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     }
   }
 }
