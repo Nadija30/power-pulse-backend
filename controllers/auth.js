@@ -4,11 +4,7 @@ const { User } = require('../models/user');
 
 require('dotenv').config();
 
-const {
-  HttpError,
-  ctrlWrapper,
-  calculateBMR,
-} = require('../helpers');
+const { HttpError, ctrlWrapper, calculateBMR } = require('../helpers');
 const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
@@ -22,7 +18,7 @@ const register = async (req, res) => {
     ...req.body,
     password: hashPassword,
   });
-  
+
   const payload = { id: newUser._id };
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '23h' });
 
@@ -36,7 +32,6 @@ const register = async (req, res) => {
     token: token,
   });
 };
-
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -74,7 +69,7 @@ const logout = async (req, res) => {
   if (!result) {
     throw HttpError(404, 'Not found');
   }
-  res.status(204).json({ message: 'logout was successful' });
+  res.status(201).json({ message: 'User successfully logged out' });
 };
 
 const updateAvatar = async (req, res) => {
