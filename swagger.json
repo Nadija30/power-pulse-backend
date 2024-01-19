@@ -187,51 +187,23 @@
         }
       }
     },
-    "/api/auth/login": {
-      "post": {
+    "/api/auth/params": {
+      "patch": {
         "tags": ["Auth"],
-        "summary": "User login",
-        "paramrters": [],
+        "summary": "Update user information",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
         "requestBody": {
-          "description": "Login object",
+          "description": "Verification email object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+                "$ref": "#/components/schemas/ParamsRequest"
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Email or password is wrong",
-            "content": {}
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/api/auth/params": {
-      "patch": {
-        "tags": ["Auth"],
-        "summary": "User params",
-        "parameters": [],
-        "security": [{ "Bearer": [] }],
-        "requestBody": {},
         "responses": {
           "200": {
             "description": "OK",
@@ -323,11 +295,28 @@
         "summary": "Get all exercises",
         "parameters": [
           {
-            "in": "params",
-            "name": "Query Params",
+            "in": "query",
+            "name": "page",
             "required": true,
             "type": "string",
-            "value": "Page,limit, filter"
+            "value": "1"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "type": "string",
+            "value": "5"
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["Body parts", "Equipment", "Muscles"]
+            },
+            "description": "Choose one of the following categories"
           }
         ],
         "security": [{ "Bearer": [] }],
@@ -345,13 +334,7 @@
           },
           "404": {
             "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "content": {}
           }
         }
       }
@@ -362,12 +345,99 @@
         "summary": "Exercises by category ",
         "parameters": [
           {
-            "in": "params",
-            "name": "Query Params",
+            "in": "query",
+            "name": "page",
             "required": true,
             "type": "string",
-            "value": "Page,limit, category, specific",
-            "description": "category (Body parts || Equipment || Muscles)"
+            "value": "2"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "type": "string",
+            "value": "12"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["Body parts", "Equipment", "Muscles"]
+            },
+            "description": "Choose one of the following categories"
+          },
+          {
+            "name": "specific",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Body parts:",
+                "back",
+                "cardio",
+                "chest",
+                "lower arms",
+                "lower legs",
+                "neck",
+                "shoulders",
+                "upper arms",
+                "upper legs",
+                "waist",
+                "Equipment:",
+                "assisted",
+                "band",
+                "barbell",
+                "body weight",
+                "bosu ball",
+                "cable",
+                "dumbbell",
+                "elliptical machine",
+                "ez barbell",
+                "hammer",
+                "kettlebell",
+                "leverage machine",
+                "medicine ball",
+                "olympic barbell",
+                "resistance band",
+                "roller",
+                "rope",
+                "skierg machine",
+                "sled machine",
+                "smith machine",
+                "stability ball",
+                "stationary bike",
+                "stepmill machine",
+                "tire",
+                "trap bar",
+                "upper body ergometer",
+                "weighted",
+                "wheel roller",
+                "Muscles:",
+                "abductors",
+                "abs",
+                "adductors",
+                "biceps",
+                "calves",
+                "cardiovascular system",
+                "delts",
+                "forearms",
+                "glutes",
+                "hamstrings",
+                "lats",
+                "levator scapulae",
+                "pectorals",
+                "quads",
+                "serratus anterior",
+                "spine",
+                "traps",
+                "triceps",
+                "upper back"
+              ]
+            },
+            "description": "Specific training"
           }
         ],
         "security": [{ "Bearer": [] }],
@@ -390,18 +460,56 @@
         }
       }
     },
-    "/produts": {
+    "/products": {
       "get": {
         "tags": ["Products"],
         "summary": "Get all products ",
         "parameters": [
           {
-            "in": "params",
-            "name": "Query Params",
-            "required": true,
-            "type": "string",
-            "value": "category,searchQuery,allowed - are optional",
-            "description": "allowed - string (yes || no)"
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "alcoholic drinks",
+                "berries",
+                "cereals",
+                "dairy",
+                "dried fruits",
+                "eggs",
+                "fish",
+                "flour",
+                "fruits",
+                "meat",
+                "mushrooms",
+                "nuts",
+                "oils and fats",
+                "poppy",
+                "sausage",
+                "seeds",
+                "sesame",
+                "soft drinks",
+                "vegetables and herbs"
+              ]
+            },
+            "description": "Choose one of the following categories"
+          },
+          {
+            "in": "query",
+            "name": "searchQuery",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "allowed",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["yes", "no"]
+            },
+            "description": "Choose one of the following categories"
           }
         ],
         "security": [{ "Bearer": [] }],
@@ -425,7 +533,7 @@
       }
     },
 
-    "/produts/categories": {
+    "/products/categories": {
       "get": {
         "tags": ["Products"],
         "summary": "Get all categories ",
@@ -490,8 +598,8 @@
         "summary": "Get all info for diary",
         "parameters": [
           {
-            "in": "params",
-            "name": "Path Variables",
+            "in": "path",
+            "name": "date",
             "required": true,
             "type": "string",
             "value": "2024-15-08",
@@ -521,11 +629,11 @@
     "/diary/exercises/{exerciseId}": {
       "delete": {
         "tags": ["Diary"],
-        "summary": "Detele exercise ",
+        "summary": "Detele exercises",
         "parameters": [
           {
-            "in": "params",
-            "name": "Path Variables",
+            "in": "path",
+            "name": "exerciseId",
             "required": true,
             "type": "string",
             "value": "65a862d428b876f59e36ca76",
@@ -536,11 +644,17 @@
         "requestBody": {},
         "responses": {
           "200": {
-            "description": "Exercise deleted",
-            "content": {}
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExrersisesDeleteResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Exercise not found",
+            "description": "Not Found",
             "content": {}
           }
         }
@@ -586,8 +700,8 @@
         "summary": "Detele product ",
         "parameters": [
           {
-            "in": "params",
-            "name": "Path Variables",
+            "in": "path",
+            "name": "productId",
             "required": true,
             "type": "string",
             "value": "65a86c2610bb79ff31c105bb",
@@ -598,11 +712,17 @@
         "requestBody": {},
         "responses": {
           "200": {
-            "description": "Product deleted",
-            "content": {}
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDeteleResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Product not found",
+            "description": "Not Found",
             "content": {}
           }
         }
@@ -1228,6 +1348,139 @@
                 }
               }
             }
+          }
+        }
+      },
+      "ParamsRequest": {
+        "type": "object",
+        "required": [
+          "name ",
+          "height",
+          "currentWeight ",
+          "desiredWeight",
+          "birthday",
+          "blood",
+          "sex",
+          "levelActivity"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Test5"
+          },
+          "height": {
+            "type": "string",
+            "example": "270"
+          },
+          "currentWeight": {
+            "type": "string",
+            "example": "75"
+          },
+          "desiredWeight": {
+            "type": "string",
+            "example": "75"
+          },
+          "birthday": {
+            "type": "string",
+            "example": "2000-12-01"
+          },
+          "blood": {
+            "type": "string",
+            "example": "2"
+          },
+          "sex": {
+            "type": "string",
+            "example": "male"
+          },
+          "levelActivity": {
+            "type": "string",
+            "example": "4"
+          }
+        }
+      },
+      "ParamsResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User's _id"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "test5"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "test22@gmail.com"
+          },
+          "verify": {
+            "type": "boolean",
+            "example": "true or false"
+          },
+          "verificationToken": {
+            "type": "string"
+          },
+          "height": {
+            "type": "number"
+          },
+          "currentWeight": {
+            "type": "number"
+          },
+          "desiredWeight": {
+            "type": "number"
+          },
+          "birthday": {
+            "type": "Date"
+          },
+          "blood": {
+            "type": "number"
+          },
+          "sex": {
+            "type": "string"
+          },
+          "levelActivity": {
+            "type": "number"
+          },
+          "token": {
+            "type": "string"
+          },
+          "bmr": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      },
+      "ExrersisesDeleteResponse": {
+        "type": "object",
+        "properties": {
+          "deleted_Id": {
+            "type": "string",
+            "example": "65a8748bfe0483b187962ae8"
+          },
+          "message": {
+            "type": "string",
+            "example": "Product deleted  from diary"
+          }
+        }
+      },
+      "ProductDeteleResponse": {
+        "type": "object",
+        "properties": {
+          "deleted_Id": {
+            "type": "string",
+            "example": "65a8748bfe0483b187962ae8"
+          },
+          "message": {
+            "type": "string",
+            "example": "Exercise deleted  from diary"
           }
         }
       }

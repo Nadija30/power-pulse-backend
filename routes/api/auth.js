@@ -25,9 +25,6 @@ router.patch(
   validateBody(schemas.addUserParamsSchemaJoi),
   ctrl.addUserData
 );
-
-router.get('/getuser', authenticate, ctrl.getUserParams);
-
 router.patch(
   '/avatars',
   authenticate,
