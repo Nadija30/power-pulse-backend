@@ -116,10 +116,13 @@ const deleteExercise = async (req, res) => {
   const result = await ExercisesDiary.findByIdAndDelete(exerciseId);
 
   if (!result) {
-    throw HttpError(404, "Exercise not found");
+    throw HttpError(404, `Exercise note with id ${exerciseId} not found`);
   }
 
-  res.status(200).json({ message: "Exercise deleted" });
+  res.status(200).json({
+    deleted_Id: exerciseId,
+    message: "Exercise deleted  from diary"
+  });
 };
 
 // DELETE PRODUCT
@@ -130,10 +133,13 @@ const deleteProduct = async (req, res) => {
   const result = await ProductsDiary.findByIdAndDelete(productId);
 
   if (!result) {
-    throw HttpError(404, "Product not found");
+    throw HttpError(404, `Product note with id ${productId} not found`);
   }
 
-  res.status(200).json({ message: "Product deleted" });
+  res.status(200).json({
+    deleted_Id: productId,
+    message: "Product deleted from diary"
+  });
 };
 
 module.exports = {
