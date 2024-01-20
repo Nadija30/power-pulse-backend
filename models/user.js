@@ -109,30 +109,6 @@ const emailSchema = Joi.object({
   }),
 });
 
-const addUserDataSchemaJoi = Joi.object({
-  height: Joi.number().min(150).required().messages({
-    'any.required': `Missing required height field`,
-  }),
-  currentWeight: Joi.number().min(35).required().messages({
-    'any.required': `Missing required currentWeigth field`,
-  }),
-  desiredWeight: Joi.number().min(35).required().messages({
-    'any.required': `Missing required desiredWeight field`,
-  }),
-  birthday: Joi.date().required().messages({
-    'any.required': `Missing required birthday field`,
-  }),
-  blood: Joi.number().valid(1, 2, 3, 4).required().messages({
-    'any.required': `Missing required blood field`,
-  }),
-  sex: Joi.string().lowercase().valid('male', 'female').messages({
-    'any.required': `Missing required sex field`,
-  }),
-  levelActivity: Joi.number().valid(1, 2, 3, 4, 5).required().messages({
-    'any.required': `Missing required levelActivity field`,
-  }),
-});
-
 const addUserParamsSchemaJoi = Joi.object({
   name: Joi.string().required(),
   height: Joi.number().min(150).required().messages({
@@ -162,7 +138,6 @@ const schemas = {
   registerSchema,
   loginSchema,
   emailSchema,
-  addUserDataSchemaJoi,
   addUserParamsSchemaJoi,
 };
 const User = model('user', userSchema);
