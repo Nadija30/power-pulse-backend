@@ -194,7 +194,7 @@
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {
-          "description": "Verification email object",
+          "description": "Forming and updating user data",
           "required": true,
           "content": {
             "application/json": {
@@ -261,7 +261,7 @@
         "parameters": [
           {
             "in": "params",
-            "name": "Path Variables",
+            "name": "path",
             "required": true,
             "type": "string",
             "description": "verificationCode",
@@ -375,7 +375,7 @@
             "schema": {
               "type": "string",
               "enum": [
-                "Body parts:",
+                "---",
                 "back",
                 "cardio",
                 "chest",
@@ -386,7 +386,7 @@
                 "upper arms",
                 "upper legs",
                 "waist",
-                "Equipment:",
+                "---",
                 "assisted",
                 "band",
                 "barbell",
@@ -415,7 +415,7 @@
                 "upper body ergometer",
                 "weighted",
                 "wheel roller",
-                "Muscles:",
+                "---",
                 "abductors",
                 "abs",
                 "adductors",
@@ -437,7 +437,7 @@
                 "upper back"
               ]
             },
-            "description": "Specific training"
+            "description": "Select a subcategory for the selected category from the list"
           }
         ],
         "security": [{ "Bearer": [] }],
