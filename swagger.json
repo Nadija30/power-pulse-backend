@@ -254,7 +254,7 @@
         }
       }
     },
-    "/api/auth/verify/:verificationCode": {
+    "/api/auth/verify/{verificationCode}": {
       "get": {
         "tags": ["Auth"],
         "summary": "Verify email with a verification token",
