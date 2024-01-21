@@ -9,8 +9,8 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json", "multipart/form-data"],
   "servers": [
     { "url": "http://localhost:3000" },
     { "url": "https://power-pulse-backend.onrender.com" }
@@ -166,7 +166,7 @@
           "description": "Update avatar object",
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/AvatarsRequest"
               }
@@ -177,7 +177,7 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "multipart/form-data": {
                 "schema": {
                   "$ref": "#/components/schemas/AvatarsResponse"
                 }
@@ -919,10 +919,11 @@
         }
       },
       "AvatarsRequest": {
-        "required": ["Key"],
+        "type": "object",
         "properties": {
-          "Key": {
-            "type": "file"
+          "fileName": {
+            "type": "string",
+            "format": "binary"
           }
         }
       },
