@@ -73,16 +73,13 @@ const logout = async (req, res) => {
 };
 
 const updateAvatar = async (req, res) => {
-  try {
-    const { _id } = req.user;
-    const avatarURL = req.file.path;
+  const { _id } = req.user;
+  const avatarURL = req.file.path;
 
-    await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
-    res.status(200).json({ avatarURL });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
+  await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
+  res.status(200).json({ avatarURL });
 };
+
 const addUserData = async (req, res) => {
   try {
     const { email } = req.user;
