@@ -1,27 +1,30 @@
-## GoIT Node.js Course Template Homework
+## PowerPulse Node.js backend.
 
-Realice un fork de este repositorio para realizar las tareas (2-6).El fork creará un repositorio en su
+This program is the final student project created as part of a unified project with the front-end part of the PowerPulse application. https://github.com/Adelina515/project-frontEnd-05 - an application that allows users to control their weight, level of physical activity, calorie intake, etc.
 
-[GitHub: Let’s build from here](https://github.com/)
+The project is built using:
 
-Agregue al mentor como colaborador.Para cada tarea, cree su propia rama.
+Node.js
+Express
+MongoDB
+Getting Started
+These instructions will help you set up and run the project on your local machine.
 
-- hw02
-- hw03
-- hw04
-- hw05
-- hw06
+To work with the project on your computer, you need to have the latest version of Node.js installed.
 
-Cada nueva rama para la tarea debe crearse desde la rama master.
-Después de completar una tarea en su rama, debe hacer una solicitud de extracción (PR). Luego, agregue al mentor para la revisión del código. Solo después de que el mentor apruebe el PR, puede fusionar la rama de la tarea en la rama principal.
+Clone the repository at: https://github.com/Nadija30/power-pulse-backend
 
-Lea atentamente los comentarios del mentor. Corrija los comentarios y haga un commit en la rama de la tarea. Los cambios se reflejarán automáticamente en el PR después de que envíe el commit con las correcciones a GitHub. Luego, agregue nuevamente al mentor para la revisión del código.- Al entregar una tarea, incluya un enlace al PR.
+Navigate to the project directory and open a terminal.
 
-- El código JavaScript debe estar limpio y claro, y se debe usar Prettier para el formato.
+Install dependencies: npm install.
 
-### Comandos:
+Configure environment variables: Create a .env file in the project's root and configure the necessary environment variables.
 
-- `npm start` — Inicia el servidor en modo de producción.
-- `npm run start:dev` — Inicia el servidor en modo de desarrollo.
-- `npm run lint` — Ejecuta la comprobación del código con eslint. Debe ejecutarse antes de cada PR y corregir todos los errores del linter.
-- `npm lint:fix` — Lo mismo que la comprobación del linter, pero con correcciones automáticas de errores simples.
+## Comandos:
+
+npm start — Inicia el servidor en modo de producción.
+npm run start:dev — Inicia el servidor en modo de desarrollo.
+npm run lint — Ejecuta la comprobación del código con eslint. Debe ejecutarse antes de cada PR y corregir todos los errores del linter.
+npm lint:fix — Lo mismo que la comprobación del linter, pero con correcciones automáticas de errores simples.
+
+The application will be available at http://localhost:3000.
