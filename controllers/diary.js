@@ -1,4 +1,5 @@
 const { ctrlWrapper, HttpError } = require("../helpers");
+const isDatePastOrToday = require("../helpers/convertDate");
 const ExercisesDiary = require("../models/diaryExercises");
 const ProductsDiary = require("../models/diaryProducts");
 
@@ -7,12 +8,19 @@ const ProductsDiary = require("../models/diaryProducts");
 // очікує в тілі запиту exerciseId (string), date (string yyyy-mm-dd), duration (number), burnedCalories (number)
 const addExercise = async (req, res) => {
   const { _id: owner } = req.user;
+
   const {
     exerciseId,
     date,
     burnedCalories: newCalories,
     duration: newDuration,
   } = req.body;
+
+  const isDateCorrect = isDatePastOrToday(date);
+
+  if (!isDateCorrect) {
+    throw HttpError(400, "Date should be today or past");
+  }
 
   const exist = await ExercisesDiary.find({ owner, exerciseId, date });
 
@@ -41,6 +49,12 @@ const addExercise = async (req, res) => {
 const addProduct = async (req, res) => {
   const { _id: owner } = req.user;
   const { productId, date, grams: newGrams, calories: newCalories } = req.body;
+
+  const isDateCorrect = isDatePastOrToday(date);
+
+  if (!isDateCorrect) {
+    throw HttpError(400, "Date should be today or past");
+  }
 
   const exist = await ProductsDiary.find({ owner, productId, date });
 
@@ -73,7 +87,7 @@ const deleteExercise = async (req, res) => {
 
   res.status(200).json({
     deleted_Id: exerciseId,
-    message: "Exercise deleted  from diary"
+    message: "Exercise deleted  from diary",
   });
 };
 
@@ -83,14 +97,14 @@ const deleteProduct = async (req, res) => {
   const { productId } = req.params;
 
   const result = await ProductsDiary.findByIdAndDelete(productId);
-  
+
   if (!result) {
     throw HttpError(404, `Product note with id ${productId} not found`);
   }
 
   res.status(200).json({
     deleted_Id: productId,
-    message: "Product deleted from diary"
+    message: "Product deleted from diary",
   });
 };
 
@@ -115,21 +129,22 @@ const getDiaryInfo = async (req, res) => {
     (one) => one.burnedCalories
   );
   const burnedCaloriesByDate = burnedCaloriesByDateArr.reduce(
-    (accumulator, currentValue) => accumulator + currentValue, 0
+    (accumulator, currentValue) => accumulator + currentValue,
+    0
   );
 
   // calories consumed, скільки калорій спожито за день
-  const consumedCaloriesByDateArr = productsInDiary.map(
-    (one) => one.calories
-  );
+  const consumedCaloriesByDateArr = productsInDiary.map((one) => one.calories);
   const consumedCaloriesByDate = consumedCaloriesByDateArr.reduce(
-    (accumulator, currentValue) => accumulator + currentValue, 0
+    (accumulator, currentValue) => accumulator + currentValue,
+    0
   );
 
   // кількість часу, яку залишилось приділити спорту в межах добової норми (на основі часу, витраченого на спорт)
   const sportsTimeArr = exercisesInDiary.map((one) => one.duration);
   const sportsTime = sportsTimeArr.reduce(
-    (accumulator, currentValue) => accumulator + currentValue, 0
+    (accumulator, currentValue) => accumulator + currentValue,
+    0
   );
   const sportsRemaining = 110 - sportsTime;
 
