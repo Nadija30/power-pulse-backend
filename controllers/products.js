@@ -8,7 +8,6 @@ const Product = require("../models/product");
 // GET CATEGORIES
 const getProductCategories = async (req, res) => {
   const data = await fs.readFile(categoriesPath);
-  // console.log(JSON.parse(data));
 
   if (!data) {
     throw HttpError(404, "No categories found");
@@ -24,7 +23,6 @@ const getProductCategories = async (req, res) => {
 const getProducts = async (req, res) => {
   const { category, searchQuery, allowed } = req.query;
   const { blood } = req.user;
-  // const blood = 2;
 
   const config = {};
   if (category) config.category = category;

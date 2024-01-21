@@ -8,7 +8,8 @@ const addProductJoiSchema = Joi.object({
     'any.required': "Missing required productId field",
   }),
   date: Joi.string().pattern(validDatePattern).required().messages({
-    'any.pattern': "Date should be 'yyyy-mm-dd' format",
+    'string.base': 'Date must be a string',
+    'string.pattern.base': "Date should be 'yyyy-mm-dd' format",
     'any.required': "Missing required date field",
   }),
   grams: Joi.number().min(1).required().messages({
@@ -25,7 +26,8 @@ const addExerciseJoiSchema = Joi.object({
     'any.required': "Missing required exerciseId field",
   }),
   date: Joi.string().pattern(validDatePattern).required().messages({
-    'any.pattern': "Date should be 'yyyy-mm-dd' format",
+    'string.base': 'Date must be a string',
+    'string.pattern.base': "Date should be 'yyyy-mm-dd' format",
     'any.required': "Missing required date field",
   }),
   duration: Joi.number().min(1).required().messages({

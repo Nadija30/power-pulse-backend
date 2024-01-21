@@ -2,17 +2,12 @@ const { Schema, model } = require('mongoose');
 
 const { handleMongooseError } = require('../helpers');
 
-/**
- * Schema for the Product model.
- */
-
 const validDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 
 const productDiarySchema = new Schema(
   {
     productId: {
       type: String,
-      // type: Schema.Types.ObjectId,
       ref: "product",
       required: [true, 'ID is required'],
     },
@@ -35,13 +30,11 @@ const productDiarySchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
       required: true,
-      // select: true,
     },
   },
   { versionKey: false }
 );
 
-// Handle Mongoose save errors using a post middleware
 productDiarySchema.post("save", handleMongooseError);
 productDiarySchema.post("findOneAndUpdate", handleMongooseError);
 

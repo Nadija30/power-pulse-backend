@@ -2,54 +2,6 @@ const { ctrlWrapper, HttpError } = require("../helpers");
 const ExercisesDiary = require("../models/diaryExercises");
 const ProductsDiary = require("../models/diaryProducts");
 
-// GET ALL INFO for diary
-// очікує в динамічній частині шляху date (yyyy-mm-dd) - дату запису в щоденнику
-const getDiaryInfo = async (req, res) => {
-  const { _id: owner } = req.user;
-  const { date } = req.params;
-
-  const productsInDiary = await ProductsDiary.find({ owner, date }).populate(
-    "productId",
-    "title category groupBloodNotAllowed"
-  );
-
-  const exercisesInDiary = await ExercisesDiary.find({ owner, date }).populate(
-    "exerciseId",
-    "bodyPart equipment name target"
-  );
-
-  // скільки калорій спалено за день
-  const burnedCaloriesByDateArr = exercisesInDiary.map(
-    (one) => one.burnedCalories
-  );
-  const burnedCaloriesByDate = burnedCaloriesByDateArr.reduce(
-    (accumulator, currentValue) => accumulator + currentValue, 0
-  );
-
-  // calories consumed, скільки калорій спожито за день
-  const consumedCaloriesByDateArr = productsInDiary.map(
-    (one) => one.calories
-  );
-  const consumedCaloriesByDate = consumedCaloriesByDateArr.reduce(
-    (accumulator, currentValue) => accumulator + currentValue, 0
-  );
-
-  // кількість часу, яку залишилось приділити спорту в межах добової норми (на основі часу, витраченого на спорт)
-  const sportsTimeArr = exercisesInDiary.map((one) => one.duration);
-  const sportsTime = sportsTimeArr.reduce(
-    (accumulator, currentValue) => accumulator + currentValue, 0
-  );
-  const sportsRemaining = 110 - sportsTime;
-
-  res.status(200).json({
-    burnedCaloriesByDate,
-    consumedCaloriesByDate,
-    sportsRemaining,
-    productsInDiary,
-    exercisesInDiary,
-  });
-};
-
 // ADD EXERCISE
 // витягує айді юзера з токена
 // очікує в тілі запиту exerciseId (string), date (string yyyy-mm-dd), duration (number), burnedCalories (number)
@@ -131,7 +83,7 @@ const deleteProduct = async (req, res) => {
   const { productId } = req.params;
 
   const result = await ProductsDiary.findByIdAndDelete(productId);
-
+  
   if (!result) {
     throw HttpError(404, `Product note with id ${productId} not found`);
   }
@@ -139,6 +91,54 @@ const deleteProduct = async (req, res) => {
   res.status(200).json({
     deleted_Id: productId,
     message: "Product deleted from diary"
+  });
+};
+
+// GET ALL INFO for diary
+// очікує в динамічній частині шляху date (yyyy-mm-dd) - дату запису в щоденнику
+const getDiaryInfo = async (req, res) => {
+  const { _id: owner } = req.user;
+  const { date } = req.params;
+
+  const productsInDiary = await ProductsDiary.find({ owner, date }).populate(
+    "productId",
+    "title category groupBloodNotAllowed"
+  );
+
+  const exercisesInDiary = await ExercisesDiary.find({ owner, date }).populate(
+    "exerciseId",
+    "bodyPart equipment name target"
+  );
+
+  // скільки калорій спалено за день
+  const burnedCaloriesByDateArr = exercisesInDiary.map(
+    (one) => one.burnedCalories
+  );
+  const burnedCaloriesByDate = burnedCaloriesByDateArr.reduce(
+    (accumulator, currentValue) => accumulator + currentValue, 0
+  );
+
+  // calories consumed, скільки калорій спожито за день
+  const consumedCaloriesByDateArr = productsInDiary.map(
+    (one) => one.calories
+  );
+  const consumedCaloriesByDate = consumedCaloriesByDateArr.reduce(
+    (accumulator, currentValue) => accumulator + currentValue, 0
+  );
+
+  // кількість часу, яку залишилось приділити спорту в межах добової норми (на основі часу, витраченого на спорт)
+  const sportsTimeArr = exercisesInDiary.map((one) => one.duration);
+  const sportsTime = sportsTimeArr.reduce(
+    (accumulator, currentValue) => accumulator + currentValue, 0
+  );
+  const sportsRemaining = 110 - sportsTime;
+
+  res.status(200).json({
+    burnedCaloriesByDate,
+    consumedCaloriesByDate,
+    sportsRemaining,
+    productsInDiary,
+    exercisesInDiary,
   });
 };
 
