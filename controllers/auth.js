@@ -47,20 +47,23 @@ const login = async (req, res) => {
     id: user._id,
   };
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '23h' });
-  await User.findByIdAndUpdate(user._id, { token });
+  const userInfo = await User.findByIdAndUpdate(
+    user._id,
+    { token },
+    { new: true }
+  );
+  console.log(userInfo);
+  userInfo.toObject();
+  const { password: pass, ...userData } = userInfo.toObject();
   res.status(200).json({
     token,
-    user: user,
+    user: { ...userData },
   });
 };
 
 const getCurrent = async (req, res) => {
-  const { email } = req.user;
-  const result = await User.findOne({ email });
-  if (!result) {
-    HttpError(404, 'Not found');
-  }
-  res.status(200).json(result);
+  const { password, ...user } = req.user;
+  res.status(200).json({ user: { ...user } });
 };
 
 const logout = async (req, res) => {
@@ -100,27 +103,15 @@ const addUserData = async (req, res) => {
     updatedData.bmr = bmr;
 
     await updatedData.save();
-
+    updatedData.toObject();
+    const { password: pass, ...userData } = updatedData.toObject();
     if (updatedData) {
-      res.status(201).json(updatedData);
+      res.status(201).json({ ...userData });
     } else {
       res.status(404).json({ message: 'User not found' });
     }
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
-  }
-};
-
-const getUserParams = async (req, res, next) => {
-  try {
-    const { email } = req.user;
-    const result = await User.findOne({ email });
-    if (!result) {
-      HttpError(404, 'Not found');
-    }
-    res.status(200).json(result);
-  } catch (error) {
-    next(error);
   }
 };
 
@@ -131,5 +122,4 @@ module.exports = {
   logout: ctrlWrapper(logout),
   updateAvatar: ctrlWrapper(updateAvatar),
   addUserData: ctrlWrapper(addUserData),
-  getUserParams: ctrlWrapper(getUserParams),
 };
