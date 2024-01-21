@@ -1,7 +1,6 @@
 const { model, Schema } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 
-// схема
 const productSchema = new Schema(
   {
     weight: {
@@ -32,8 +31,6 @@ const productSchema = new Schema(
 
 productSchema.post("save", handleMongooseError);
 
-// модель (клас, який буде працювати з колекцією product)
 const Product = model("product", productSchema);
 
-// імпортуємо в контролери
 module.exports = Product;

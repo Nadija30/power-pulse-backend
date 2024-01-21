@@ -34,17 +34,14 @@ const getExercisesCategories = async (req, res) => {
   switch (category) {
     case "Body parts":
       data = await Exercises.find({ bodyPart: specific });
-      // res.json(data);
       break;
 
     case "Equipment":
       data = await Exercises.find({ equipment: specific });
-      // res.json(data);
       break;
 
     case "Muscles":
       data = await Exercises.find({ target: specific });
-      // res.json(data);
       break;
 
     default:

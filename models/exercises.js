@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const { handleMongooseError } = require("../helpers");
 
 const exerciseSchema = new Schema({
     bodyPart: {
@@ -30,6 +31,8 @@ const exerciseSchema = new Schema({
         required: true,
     },
 });
+
+exerciseSchema.post("save", handleMongooseError);
 
 const Exercises = model("exercise", exerciseSchema);
 

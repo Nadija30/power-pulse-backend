@@ -1,17 +1,12 @@
 const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 
-/**
- * Schema for the User model.
- */
-
 const validDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 
 const exerciseDiarySchema = new Schema(
   {
     exerciseId: {
       type: String,
-      // type: Schema.Types.ObjectId,
       ref: "exercise",
       required: [true, "ID is required"],
     },
@@ -34,13 +29,11 @@ const exerciseDiarySchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
       required: true,
-      // select: false,
     },
   },
   { versionKey: false }
 );
 
-// Handle Mongoose save errors using a post middleware
 exerciseDiarySchema.post("save", handleMongooseError);
 
 const ExercisesDiary = model("exerciseDiary", exerciseDiarySchema);
