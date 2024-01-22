@@ -44,13 +44,13 @@ Database - https://power-pulse-backend.onrender.com
 
 ### Contributors
 
-- Nadiia Sukhorukova [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Nadija30) - TeamLead backend, Developer
-- Adelina Hodlevska [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Adelina515) - TeamLead frontend
-- Solomiia Lutska [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Mia468) - Scrum Master Developer
-- Vitalii Kurpach [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/VitaliiKyrpach) - Developer
-- Daryna Dermanchuk [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/DarynaSD) - Developer
-- Olha Matsiiovska[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Matsiiovska) - Developer
-- Natalia Melnyk [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/avreliakotta) - Developer
-- Yelyzaveta Romanova [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Liza0806) - Developer
-- Stanislav Kish [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/app1e1over) - Developer
-- Anastasiia Bakalyna [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Bakalina) - Developer
+- [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Nadija30)Nadiia Sukhorukova - TeamLead backend, Developer
+- [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Adelina515) Adelina Hodlevska - TeamLead frontend
+- [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Mia468)Solomiia Lutska - Scrum Master Developer
+- [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/VitaliiKyrpach)Vitalii Kurpach - Developer
+- [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/DarynaSD)Daryna Dermanchuk - Developer
+- [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Matsiiovska)Olha Matsiiovska - Developer
+- [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/avreliakotta)Natalia Melnyk - Developer
+- [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Liza0806)Yelyzaveta Romanova - Developer
+- [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/app1e1over)Stanislav Kish - Developer
+- [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Bakalina)Anastasiia Bakalyna - Developer
