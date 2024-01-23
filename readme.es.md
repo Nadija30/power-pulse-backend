@@ -1,3 +1,4 @@
+![Welcome page](./public/welcome-page.png)
 # PowerPulse Node.js backend.
 
 This program is the final student project created as part of a unified project with the front-end part of the PowerPulse application;
@@ -46,7 +47,7 @@ Database - https://power-pulse-backend.onrender.com
 
 - [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Nadija30) Nadiia Sukhorukova - TeamLead backend, Developer
 - [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Adelina515) Adelina Hodlevska - TeamLead frontend
-- [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Mia468) Solomiia Lutska - Scrum Master Developer
+- [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Mia468) Solomiia Lutska - Scrum Master, Developer
 - [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/VitaliiKyrpach) Vitalii Kurpach - Developer
 - [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/DarynaSD) Daryna Dermanchuk - Developer
 - [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Matsiiovska) Olha Matsiiovska - Developer

@@ -1,3 +1,4 @@
+![Welcome page](./public/welcome-page.png)
 # PowerPulse Node.js backend.
 
 Ця програма є фінальним студентським проектом та створена в рамках єдиного проекту з front-end частиною додатку PowerPulse;
