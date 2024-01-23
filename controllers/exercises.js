@@ -8,7 +8,7 @@ const getAllExercises = async (req, res) => {
   const { filter, page = 1, limit = 18 } = req.query;
   const skip = (page - 1) * limit;
 
-  const total = await Filter.countDocuments({limit});
+  const total = await Filter.countDocuments({});
   const data = await Filter.find({ filter }, "", { skip, limit });
 
   const totalPages = Math.ceil(total / limit);
