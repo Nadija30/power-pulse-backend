@@ -18,6 +18,9 @@ const addProductJoiSchema = Joi.object({
   calories: Joi.number().min(1).required().messages({
     'any.required': 'Missing required calories field',
   }),
+  allowed: Joi.boolean().required().messages({
+    'any.required': 'Missing required allowed field',
+  }),
 });
 
 
