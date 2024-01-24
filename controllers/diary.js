@@ -44,7 +44,7 @@ const addExercise = async (req, res) => {
 
 // ADD PRODUCT
 // витягує айді юзера з токена
-// очікує в тілі запиту productId (string), date (string yyyy-mm-dd), grams (number), calories (number)
+// очікує в тілі запиту productId (string), date (string yyyy-mm-dd), grams (number), calories (number), allowed (boolean)
 
 const addProduct = async (req, res) => {
   const { _id: owner } = req.user;

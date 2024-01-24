@@ -31,6 +31,11 @@ const productDiarySchema = new Schema(
       ref: "user",
       required: true,
     },
+    allowed: {
+      type: Boolean,
+      default: false,
+      required: [true, 'Allowed is required'],
+    }
   },
   { versionKey: false }
 );
