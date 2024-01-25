@@ -1481,6 +1481,10 @@
           "duration": {
             "type": "number",
             "example": "6.46"
+          },
+          "burnedCalories": {
+            "type": "number",
+            "example": "600"
           }
         }
       },
