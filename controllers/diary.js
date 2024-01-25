@@ -87,8 +87,9 @@ const deleteExercise = async (req, res) => {
 
   res.status(200).json({
     deleted_Id: exerciseId,
-    message: "Exercise deleted  from diary",
+    message: "Exercise deleted from diary",
     duration: result.duration,
+    burnedCalories: result.burnedCalories,
   });
 };
 
