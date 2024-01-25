@@ -1477,6 +1477,10 @@
           "message": {
             "type": "string",
             "example": "Product deleted  from diary"
+          },
+          "duration": {
+            "type": "number",
+            "example": "6.46"
           }
         }
       },
@@ -1490,6 +1494,10 @@
           "message": {
             "type": "string",
             "example": "Exercise deleted  from diary"
+          },
+          "calories": {
+            "type": "number",
+            "example": "900"
           }
         }
       }
